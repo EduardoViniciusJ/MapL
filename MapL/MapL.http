@@ -1,0 +1,6 @@
+@MapL_HostAddress = http://localhost:5196
+
+GET {{MapL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
