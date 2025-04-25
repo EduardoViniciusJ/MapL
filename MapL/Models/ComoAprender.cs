@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MapL.Models
 {
     public class ComoAprender
     {
-        public int  Id { get; set; }
+        public int Id { get; set; }
         [Required(ErrorMessage = "O campo Texto é obrigatório.")]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "O campo Texto deve ter entre 1 e 150 caracteres.")]
         public string? Texto { get; set; }
