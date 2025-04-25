@@ -1,5 +1,6 @@
 ﻿using MapL.Context;
 using MapL.Models;
+using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,35 +10,35 @@ namespace MapL.Controllers
     [ApiController]
     public class ProjetoController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IProjetoRepository _projetoRepository;
 
-        public ProjetoController(AppDbContext context)
+
+        public ProjetoController(IProjetoRepository projetoRepository)
         {
-            _context = context;
+            _projetoRepository = projetoRepository;
         }
 
         // Mostrar todos os projetos
         [HttpGet]
         public ActionResult<IEnumerable<Projeto>> Get()
         {
-            var produtos = _context.Projeto.Include(p => p.Porques)
-                                            .Include(p => p.Oques)
-                                            .Include(p => p.Comos)
-                                            .ToList();
-            return Ok(produtos);
-        }
+            var projetos = _projetoRepository.GetAll().ToList();
+            if (projetos is null)
+            {
+                return NotFound("Nenhum projeto encontrado.");
+            }
 
+            return Ok(projetos);
+
+        }
         // Mostra um projeto com base no seu id
         [HttpGet("{id:int}")]
         public ActionResult<Projeto> GetById(int id)
         {
-            var projeto = _context.Projeto.Include(p => p.Porques)
-                                            .Include(p => p.Oques)
-                                            .Include(p => p.Comos)
-                                            .FirstOrDefault(p => p.Id == id);
+            var projeto = _projetoRepository.GetById(id);
             if (projeto is null)
             {
-                return NotFound();
+                return NotFound("Projeto não encontrado.");
             }
             return Ok(projeto);
         }
@@ -50,9 +51,9 @@ namespace MapL.Controllers
             {
                 return BadRequest("Dados inválidos");
             }
-            _context.Projeto.Add(projeto);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetById), new { id = projeto.Id }, projeto);
+            var projetoCriado = _projetoRepository.Create(projeto);
+
+            return CreatedAtAction(nameof(GetById), new { id = projetoCriado.Id }, projetoCriado);
         }
 
 
@@ -60,33 +61,41 @@ namespace MapL.Controllers
         [HttpPost("{id}/conceito")]
         public ActionResult<OQueAprender> PostConceito(OQueAprender conceito, int id)
         {
-            conceito.ProjetoId = id;
-            _context.Oques.Add(conceito);
-            _context.SaveChanges();
+            if (conceito is null)
+            {
+                return BadRequest("Dados inválidos");
+            }
 
-            return CreatedAtAction(nameof(GetById), new { id = conceito.Id }, conceito);
+            var conceitoCriado = _projetoRepository.AddConceito(conceito, id);
+            return CreatedAtAction(nameof(GetById), new { id = conceitoCriado.Id }, conceitoCriado);
+
         }
+
 
         // Adiciona um fato a um projeto com base no seu id
         [HttpPost("{id}/fato")]
         public ActionResult<OQueAprender> PostFato(OQueAprender fato, int id)
         {
-            fato.ProjetoId = id;
-            _context.Oques.Add(fato);
-            _context.SaveChanges();
+            if (fato is null)
+            {
+                return BadRequest("Dados inválidos");
+            }
 
-            return CreatedAtAction(nameof(GetById), new { id = fato.Id }, fato);
+            var fatoCriado = _projetoRepository.AddFato(fato, id);
+            return CreatedAtAction(nameof(GetById), new { id = fatoCriado.Id }, fatoCriado);
         }
 
         // Adiciona um procedimento a um projeto com base no seu id
         [HttpPost("{id}/procedimento")]
         public ActionResult<OQueAprender> PostProcedimento(OQueAprender procedimento, int id)
         {
-            procedimento.ProjetoId = id;
-            _context.Oques.Add(procedimento);
-            _context.SaveChanges();
+            if (procedimento is null)
+            {
+                return BadRequest("Dados inválidos");
+            }
 
-            return CreatedAtAction(nameof(GetById), new { id = procedimento.Id }, procedimento);
+            var procedimentoCriado = _projetoRepository.AddProcedimento(procedimento, id);
+            return CreatedAtAction(nameof(GetById), new { id = procedimentoCriado.Id }, procedimentoCriado);
         }
 
         // Atualizar um projeto 
@@ -97,23 +106,24 @@ namespace MapL.Controllers
             {
                 return BadRequest("Dados inválidos");
             }
-            _context.Entry(projeto).State = EntityState.Modified;
-            _context.SaveChanges();
-            return Ok(projeto);
+
+            var projetoAtualizado = _projetoRepository.Update(projeto);
+            return Ok(projetoAtualizado);
+
         }
 
         // Deletar um projeto
         [HttpDelete("{id:int}")]
         public ActionResult<Projeto> Delete(int id)
         {
-            var projeto = _context.Projeto.Find(id);
-            if (projeto is null)
+            var projetoDeletado = _projetoRepository.Delete(id);
+
+            if(projetoDeletado is null)
             {
-                return NotFound();
+                return NotFound("Projeto não encontrado.");
             }
-            _context.Projeto.Remove(projeto);
-            _context.SaveChanges();
-            return Ok(projeto);
+            
+            return Ok(projetoDeletado);
         }
     }
 }
