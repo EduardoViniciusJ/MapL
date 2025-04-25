@@ -29,7 +29,7 @@ namespace MapL.Controllers
 
         // Mostra um projeto com base no seu id
         [HttpGet("{id:int}")]
-        public ActionResult<IEnumerable<Projeto>> GetById(int id)
+        public ActionResult<Projeto> GetById(int id)
         {
             var projeto = _context.Projeto.Include(p => p.Porques)
                                             .Include(p => p.Oques)
@@ -44,7 +44,7 @@ namespace MapL.Controllers
 
         // Criar um novo projeto
         [HttpPost]
-        public ActionResult<IEnumerable<Projeto>> Post(Projeto projeto)
+        public ActionResult<Projeto> Post(Projeto projeto)
         {
             if (projeto is null)
             {
@@ -58,7 +58,7 @@ namespace MapL.Controllers
 
         // Adiciona um conceito a um projeto com base no seu id
         [HttpPost("{id}/conceito")]
-        public ActionResult<IEnumerable<OQueAprender>> PostConeito(OQueAprender conceito, int id)
+        public ActionResult<OQueAprender> PostConceito(OQueAprender conceito, int id)
         {
             conceito.ProjetoId = id;
             _context.Oques.Add(conceito);
@@ -69,7 +69,7 @@ namespace MapL.Controllers
 
         // Adiciona um fato a um projeto com base no seu id
         [HttpPost("{id}/fato")]
-        public ActionResult<IEnumerable<OQueAprender>> PostFato(OQueAprender fato, int id)
+        public ActionResult<OQueAprender> PostFato(OQueAprender fato, int id)
         {
             fato.ProjetoId = id;
             _context.Oques.Add(fato);
@@ -80,7 +80,7 @@ namespace MapL.Controllers
 
         // Adiciona um procedimento a um projeto com base no seu id
         [HttpPost("{id}/procedimento")]
-        public ActionResult<IEnumerable<OQueAprender>> PostProcedimento(OQueAprender procedimento, int id)
+        public ActionResult<OQueAprender> PostProcedimento(OQueAprender procedimento, int id)
         {
             procedimento.ProjetoId = id;
             _context.Oques.Add(procedimento);
@@ -91,7 +91,7 @@ namespace MapL.Controllers
 
         // Atualizar um projeto 
         [HttpPut("{id:int}")]
-        public ActionResult<IEnumerable<Projeto>> Put(int id, Projeto projeto)
+        public ActionResult<Projeto> Put(int id, Projeto projeto)
         {
             if (id != projeto.Id)
             {
@@ -104,7 +104,7 @@ namespace MapL.Controllers
 
         // Deletar um projeto
         [HttpDelete("{id:int}")]
-        public ActionResult<IEnumerable<Projeto>> Delete(int id)
+        public ActionResult<Projeto> Delete(int id)
         {
             var projeto = _context.Projeto.Find(id);
             if (projeto is null)
