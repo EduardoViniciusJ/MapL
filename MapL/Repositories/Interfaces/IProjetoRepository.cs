@@ -10,8 +10,6 @@ namespace MapL.Repositories.Interfaces
         Projeto Update(Projeto projeto);
         Projeto Delete(int id);
 
-        OQueAprender AddConceito(OQueAprender conceito, int id);
-        OQueAprender AddFato(OQueAprender fato, int id);
-        OQueAprender AddProcedimento(OQueAprender procedimento, int id);
+        OQueAprender OQueAprender(OQueAprender oQueAprender, int id);
     }
 }

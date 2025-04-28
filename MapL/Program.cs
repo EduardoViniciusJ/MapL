@@ -1,4 +1,5 @@
 using MapL.Context;
+using MapL.DTOs;
 using MapL.Repositories;
 using MapL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
 
+builder.Services.AddAutoMapper(typeof(OQueAprenderDTOMappingProfile).Assembly);
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

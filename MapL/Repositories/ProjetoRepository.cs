@@ -54,28 +54,12 @@ namespace MapL.Repositories
 
         }
 
-        public OQueAprender AddConceito(OQueAprender conceito, int id)
+        public OQueAprender OQueAprender(OQueAprender oQueAprender, int id)
         {
-            conceito.ProjetoId = id;
-            _context.Oques.Add(conceito);
+            oQueAprender.ProjetoId = id;
+            _context.Oques.Add(oQueAprender);
             _context.SaveChanges();
-            return conceito;
-        }
-
-        public OQueAprender AddFato(OQueAprender fato, int id)
-        {
-            fato.ProjetoId = id;
-            _context.Oques.Add(fato);
-            _context.SaveChanges();
-            return fato;
-        }
-
-        public OQueAprender AddProcedimento(OQueAprender procedimento, int id)
-        {
-            procedimento.ProjetoId = id;
-            _context.Oques.Add(procedimento);
-            _context.SaveChanges();
-            return procedimento;
+            return oQueAprender;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using MapL.Context;
+﻿using AutoMapper;
+using MapL.Context;
+using MapL.DTOs;
 using MapL.Models;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +13,13 @@ namespace MapL.Controllers
     public class ProjetoController : Controller
     {
         private readonly IProjetoRepository _projetoRepository;
+        private readonly IMapper _mapper;
 
 
-        public ProjetoController(IProjetoRepository projetoRepository)
+        public ProjetoController(IProjetoRepository projetoRepository, IMapper mapper)
         {
             _projetoRepository = projetoRepository;
+            _mapper = mapper;
         }
 
         // Mostrar todos os projetos
@@ -28,12 +32,13 @@ namespace MapL.Controllers
                 return NotFound("Nenhum projeto encontrado.");
             }
 
+         
             return Ok(projetos);
 
         }
         // Mostra um projeto com base no seu id
         [HttpGet("{id:int}")]
-        public ActionResult<Projeto> GetById(int id)
+        public ActionResult GetById(int id)
         {
             var projeto = _projetoRepository.GetById(id);
             if (projeto is null)
@@ -56,47 +61,35 @@ namespace MapL.Controllers
             return CreatedAtAction(nameof(GetById), new { id = projetoCriado.Id }, projetoCriado);
         }
 
-
-        // Adiciona um conceito a um projeto com base no seu id
-        [HttpPost("{id}/conceito")]
-        public ActionResult<OQueAprender> PostConceito(OQueAprender conceito, int id)
+        [HttpPost("{id}/ad")]
+        public ActionResult<OQueAprenderDTO> PostOQueAprender([FromRoute] int id, [FromBody] OQueAprenderDTO oQueAprenderDTO)
         {
-            if (conceito is null)
+            if (oQueAprenderDTO is null)
             {
-                return BadRequest("Dados inválidos");
+                return BadRequest("Dados inválidos.");
             }
 
-            var conceitoCriado = _projetoRepository.AddConceito(conceito, id);
-            return CreatedAtAction(nameof(GetById), new { id = conceitoCriado.Id }, conceitoCriado);
-
-        }
-
-
-        // Adiciona um fato a um projeto com base no seu id
-        [HttpPost("{id}/fato")]
-        public ActionResult<OQueAprender> PostFato(OQueAprender fato, int id)
-        {
-            if (fato is null)
+            
+            var projetoExistente = _projetoRepository.GetById(id);
+            if (projetoExistente == null)
             {
-                return BadRequest("Dados inválidos");
+                return NotFound("Projeto não encontrado.");
             }
 
-            var fatoCriado = _projetoRepository.AddFato(fato, id);
-            return CreatedAtAction(nameof(GetById), new { id = fatoCriado.Id }, fatoCriado);
+            var oQueAprender = _mapper.Map<OQueAprender>(oQueAprenderDTO);
+
+            // Associa o ProjetoId
+            oQueAprender.ProjetoId = id;
+
+            // Salva no banco
+            var novoOQueAprender = _projetoRepository.OQueAprender(oQueAprender, id);
+
+            // Faz o mapeamento Entidade -> DTO para retornar
+            var oQueAprenderCriado = _mapper.Map<OQueAprenderDTO>(novoOQueAprender);
+
+            return CreatedAtAction(nameof(GetById), new { id = novoOQueAprender.Id }, oQueAprenderCriado);
         }
 
-        // Adiciona um procedimento a um projeto com base no seu id
-        [HttpPost("{id}/procedimento")]
-        public ActionResult<OQueAprender> PostProcedimento(OQueAprender procedimento, int id)
-        {
-            if (procedimento is null)
-            {
-                return BadRequest("Dados inválidos");
-            }
-
-            var procedimentoCriado = _projetoRepository.AddProcedimento(procedimento, id);
-            return CreatedAtAction(nameof(GetById), new { id = procedimentoCriado.Id }, procedimentoCriado);
-        }
 
         // Atualizar um projeto 
         [HttpPut("{id:int}")]
