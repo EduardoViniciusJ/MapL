@@ -10,6 +10,7 @@ namespace MapL.Repositories.Interfaces
         Projeto Update(Projeto projeto);
         Projeto Delete(int id);
 
-        OQueAprender OQueAprender(OQueAprender oQueAprender, int id);
+        OQueAprender OQueAprenderPost(OQueAprender oQueAprender, int id);
+        OQueAprender OQueAprenderPut(OQueAprender oQueAprender);
     }
 }

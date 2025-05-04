@@ -32,7 +32,7 @@ namespace MapL.Controllers
                 return NotFound("Nenhum projeto encontrado.");
             }
 
-         
+
             return Ok(projetos);
 
         }
@@ -61,34 +61,67 @@ namespace MapL.Controllers
             return CreatedAtAction(nameof(GetById), new { id = projetoCriado.Id }, projetoCriado);
         }
 
-        [HttpPost("{id}/ad")]
-        public ActionResult<OQueAprenderDTO> PostOQueAprender([FromRoute] int id, [FromBody] OQueAprenderDTO oQueAprenderDTO)
+        [HttpPost("{id}/adi")]
+        public ActionResult<OQueAprenderDTO> PostOQueAprender(int id, OQueAprenderDTO oQueAprenderDTO)
         {
             if (oQueAprenderDTO is null)
             {
                 return BadRequest("Dados inválidos.");
             }
 
-            
+
             var projetoExistente = _projetoRepository.GetById(id);
             if (projetoExistente == null)
             {
                 return NotFound("Projeto não encontrado.");
             }
 
+            // Faz o mapeamento DTO -> Entidade
             var oQueAprender = _mapper.Map<OQueAprender>(oQueAprenderDTO);
 
             // Associa o ProjetoId
             oQueAprender.ProjetoId = id;
 
             // Salva no banco
-            var novoOQueAprender = _projetoRepository.OQueAprender(oQueAprender, id);
+            var novoOQueAprender = _projetoRepository.OQueAprenderPost(oQueAprender, id);
 
             // Faz o mapeamento Entidade -> DTO para retornar
             var oQueAprenderCriado = _mapper.Map<OQueAprenderDTO>(novoOQueAprender);
 
             return CreatedAtAction(nameof(GetById), new { id = novoOQueAprender.Id }, oQueAprenderCriado);
         }
+
+
+        [HttpPut("{id}/ad")]
+        public ActionResult<OQueAprenderDTO> PutOQueAprender(int id, OQueAprenderDTO oQueAprenderDTO)
+        {
+            if (oQueAprenderDTO is null)
+            {
+                BadRequest("Dados inválidos");
+            }
+
+            var projetoExistente = _projetoRepository.GetById(id);   
+
+            if (projetoExistente == null)
+            {
+                return NotFound("Projeto não encontrado.");
+            }   
+
+            var oQueAprender = _mapper.Map<OQueAprender>(oQueAprenderDTO);
+
+            oQueAprender.ProjetoId = id;
+
+            var oQueAprenderAtualizado = _projetoRepository.OQueAprenderPut(oQueAprender);
+
+            var oQueAprenderDTOAtualizado = _mapper.Map<OQueAprenderDTO>(oQueAprenderAtualizado);
+
+            return Ok(oQueAprenderDTOAtualizado);   
+
+        }
+
+
+
+
 
 
         // Atualizar um projeto 
@@ -111,11 +144,11 @@ namespace MapL.Controllers
         {
             var projetoDeletado = _projetoRepository.Delete(id);
 
-            if(projetoDeletado is null)
+            if (projetoDeletado is null)
             {
                 return NotFound("Projeto não encontrado.");
             }
-            
+
             return Ok(projetoDeletado);
         }
     }
