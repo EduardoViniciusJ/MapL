@@ -52,26 +52,6 @@ namespace MapL.Repositories
             return projeto;
 
 
-        }
-
-        public OQueAprender OQueAprenderPost(OQueAprender oQueAprender, int id)
-        {
-            oQueAprender.ProjetoId = id;
-            _context.Oques.Add(oQueAprender);
-            _context.SaveChanges();
-            return oQueAprender;
-        }
-
-        public OQueAprender OQueAprenderPut(OQueAprender oQueAprender)
-        {
-            var oQueAprenderExistente = _context.Oques.FirstOrDefault(x => x.Id == oQueAprender.Id);    
-
-            oQueAprenderExistente.Conceito = oQueAprender.Conceito;
-            oQueAprenderExistente.Fato = oQueAprender.Fato; 
-            oQueAprenderExistente.Procedimento = oQueAprender.Procedimento;
-
-            _context.SaveChanges();
-            return oQueAprenderExistente;
-        }
+        }   
     }
 }

@@ -23,7 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
 
-builder.Services.AddAutoMapper(typeof(OQueAprenderDTOMappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(SolutionDTOMappingProfile).Assembly);
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

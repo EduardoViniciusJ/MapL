@@ -3,11 +3,12 @@ using MapL.Models;
 
 namespace MapL.DTOs
 {
-    public class OQueAprenderDTOMappingProfile : Profile
+    public class SolutionDTOMappingProfile : Profile
     {
-        public OQueAprenderDTOMappingProfile()
+        public SolutionDTOMappingProfile()
         {
             CreateMap<OQueAprenderDTO, OQueAprender>().ReverseMap();
+            CreateMap<ProjetoDTO, Projeto>().ReverseMap();
         }
     }
 }
