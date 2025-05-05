@@ -18,7 +18,7 @@ namespace MapL.Repositories
         {
             return _context.Projeto.Include(p => p.Porques)
                                     .Include(p => p.Oques)
-                                    .Include(p => p.Comos)
+                                    .Include(p => p.Comos).AsNoTracking()
                                     .ToList();
         }
 
@@ -26,7 +26,7 @@ namespace MapL.Repositories
         {
             return _context.Projeto.Include(p => p.Porques)
                                     .Include(p => p.Oques)
-                                    .Include(p => p.Comos)
+                                    .Include(p => p.Comos).AsNoTracking()
                                     .FirstOrDefault(p => p.Id == id);
         }
 

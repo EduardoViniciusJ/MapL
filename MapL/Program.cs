@@ -22,6 +22,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
+builder.Services.AddScoped<IOQueAprenderRepository, OQueAprenderRepository>();
 
 builder.Services.AddAutoMapper(typeof(SolutionDTOMappingProfile).Assembly);
 

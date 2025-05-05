@@ -1,6 +1,7 @@
 ﻿using MapL.Context;
 using MapL.Models;
 using MapL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace MapL.Repositories
 {
@@ -13,9 +14,8 @@ namespace MapL.Repositories
             _context = context;
         }
 
-        public OQueAprender OQueAprenderPost(OQueAprender oQueAprender, int id)
+        public OQueAprender OQueAprenderPost(OQueAprender oQueAprender)
         {
-            oQueAprender.ProjetoId = id;
             _context.Oques.Add(oQueAprender);
             _context.SaveChanges();
             return oQueAprender;
@@ -43,6 +43,29 @@ namespace MapL.Repositories
 
         }
 
+        public IEnumerable<OQueAprender> OQueAprenderGet()
+        {
+            var oQueAprender = _context.Oques.AsNoTracking().ToList();
+            return oQueAprender;
+        }
+
+        public OQueAprender OQueAprenderGetByIdOque(int id)
+        {
+            var oQueAprender = _context.Oques.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return oQueAprender;
+        }
+
+        public IEnumerable<OQueAprender> OQueAprenderGetByIdProjeto(int id)
+        {
+            var oQueAprender = _context.Oques.AsNoTracking().Where(x=> x.ProjetoId == id).ToList();
+
+            return oQueAprender;
+        }
+
+        public IEnumerable<OQueAprender> OQueAprenderByIdProjeto(int id)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

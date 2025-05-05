@@ -13,5 +13,6 @@ namespace MapL.DTOs
         public string? Fato { get; set; }
         [StringLength(50, MinimumLength = 1, ErrorMessage = "O campo Fato deve ter entre 1 e 150 caracteres.")]
         public string? Procedimento { get; set; }
+        public int ProjetoId { get; set; }
     }
 }
