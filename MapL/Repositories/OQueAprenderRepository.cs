@@ -61,10 +61,5 @@ namespace MapL.Repositories
             return oQueAprender;
         }
 
-        public IEnumerable<OQueAprender> OQueAprenderByIdProjeto(int id)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

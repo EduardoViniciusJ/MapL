@@ -99,7 +99,7 @@ namespace MapL.Controllers
         }
 
         [HttpDelete("{projetoId}/oque/{id}")]
-        public ActionResult<OQueAprenderDTO> DeleteOQueAprender(int projetoId, int id)
+        public ActionResult DeleteOQueAprender(int projetoId, int id)
         {
             var deletado = _oQueAprenderRepository.OQueAprenderDelete(projetoId, id);
 
@@ -109,11 +109,7 @@ namespace MapL.Controllers
             }   
 
             return Ok(deletado);    
-
         }
-
-
-
 
     }
 
