@@ -33,13 +33,14 @@ namespace MapL.Repositories
             return oQueAprenderExistente;
         }
 
-        public OQueAprender OQueAprenderDelete(int projetoId, int id)
+        public OQueAprender OQueAprenderDelete(OQueAprender oQueAprender)
         {
-            var oQueAprenderExistente = _context.Oques.FirstOrDefault(x => x.Id == id && x.ProjetoId == projetoId);
+            var oQueAprenderExistente = _context.Oques.FirstOrDefault(x => x.Id == oQueAprender.Id);
 
             var OQueAprenderApagado = _context.Oques.Remove(oQueAprenderExistente);
             _context.SaveChanges();
             return OQueAprenderApagado.Entity;
+
         }
 
         public IEnumerable<OQueAprender> OQueAprenderGet()

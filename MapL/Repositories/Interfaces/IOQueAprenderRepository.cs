@@ -5,11 +5,11 @@ namespace MapL.Repositories.Interfaces
     public interface IOQueAprenderRepository
     {
         IEnumerable<OQueAprender> OQueAprenderGet();    
-        IEnumerable<OQueAprender> OQueAprenderGetByIdProjeto(int id);    
+        IEnumerable<OQueAprender> OQueAprenderByIdProjeto(int id);    
         OQueAprender OQueAprenderGetByIdOque(int id);    
         OQueAprender OQueAprenderPost(OQueAprender oQueAprender);
         OQueAprender OQueAprenderPut(OQueAprender oQueAprender);
-        OQueAprender OQueAprenderDelete(int projetoId, int id);
+        OQueAprender OQueAprenderDelete(OQueAprender oQueAprender);
 
     }
 }

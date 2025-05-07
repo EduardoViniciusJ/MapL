@@ -54,7 +54,7 @@ namespace MapL.Controllers
         [HttpGet("{id}/projeto")]
         public ActionResult<IEnumerable<OQueAprenderDTO>> GetProjeto(int id)
         {
-            var oQueAprender = _oQueAprenderRepository.OQueAprenderGetByIdProjeto(id);
+            var oQueAprender = _oQueAprenderRepository.OQueAprenderByIdProjeto(id);
             if (oQueAprender == null)
             {
                 return NotFound();
@@ -82,35 +82,9 @@ namespace MapL.Controllers
             return CreatedAtAction(nameof(GetOQueAprender), new { id = oQueAprenderCriadoDTO.Id }, oQueAprenderCriadoDTO);
         }
 
-        [HttpPut]
-        public ActionResult<OQueAprenderDTO> PutOQueAprender(OQueAprenderDTO oQueAprenderDTO) {
-            if (oQueAprenderDTO is null)
-            {
-                return BadRequest("Dados inválidos");               
-            }
 
-            var oQueAprender = _mapper.Map<OQueAprender>(oQueAprenderDTO);
 
-            var oQueAprenderAtualizado = _oQueAprenderRepository.OQueAprenderPut(oQueAprender);
 
-            var oQueAprenderAtualizadoDTO = _mapper.Map<OQueAprenderDTO>(oQueAprenderAtualizado);
-
-            return Ok(oQueAprenderAtualizadoDTO);
-        }
-
-        [HttpDelete("{projetoId}/oque/{id}")]
-        public ActionResult<OQueAprenderDTO> DeleteOQueAprender(int projetoId, int id)
-        {
-            var deletado = _oQueAprenderRepository.OQueAprenderDelete(projetoId, id);
-
-            if(deletado == null)
-            {
-                return NotFound("Item não encontrado");
-            }   
-
-            return Ok(deletado);    
-
-        }
 
 
 
