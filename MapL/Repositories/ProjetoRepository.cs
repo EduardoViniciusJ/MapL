@@ -52,6 +52,13 @@ namespace MapL.Repositories
             return projeto;
 
 
-        }   
+        }
+
+        public Projeto PostCompleto(Projeto projeto)
+        {
+            _context.Projeto.Add(projeto);
+            _context.SaveChanges();
+            return projeto;
+        }
     }
 }

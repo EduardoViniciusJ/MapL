@@ -9,5 +9,6 @@ namespace MapL.Repositories.Interfaces
         Projeto Create(Projeto projeto);
         Projeto Update(Projeto projeto);
         Projeto Delete(int id);
+        Projeto PostCompleto(Projeto projeto); 
     }
 }

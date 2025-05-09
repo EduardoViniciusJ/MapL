@@ -45,7 +45,7 @@ namespace MapL.Controllers
             return Ok(projeto);
         }
 
-        // Criar um novo projeto
+        // Criar o projeto mas sem os detalhes
         [HttpPost]
         public ActionResult<ProjetoDTO> Post(ProjetoDTO projetoDTO)
         {
@@ -61,6 +61,25 @@ namespace MapL.Controllers
             var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoCriado);  
 
             return CreatedAtAction(nameof(GetById), new { id = projetoCriadoDTO.Id }, projetoCriadoDTO);
+        }
+
+        // Criar um projeto completo 
+        [HttpPost("/api/completo")]
+        public ActionResult<ProjetoCompletoDTO> PostCompleto(ProjetoCompletoDTO projetoCompletoDTO)
+        {
+            if (projetoCompletoDTO is null)
+            {
+                return BadRequest("Dados inválidos");
+            }
+
+            var projeto = _mapper.Map<Projeto>(projetoCompletoDTO); 
+
+            var projetoCriado = _projetoRepository.PostCompleto(projeto);   
+
+            var projetoCriadoDTO = _mapper.Map<ProjetoCompletoDTO>(projetoCriado);      
+
+            return Ok(projetoCriadoDTO);      
+     
         }
 
         // Atualizar um projeto 
