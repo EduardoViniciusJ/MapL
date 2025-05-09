@@ -8,7 +8,7 @@ namespace MapL.Repositories.Interfaces
         ComoAprender ComoAprenderGetIdProjeto(int id);
         ComoAprender ComoAprenderGetIdComo(int id);
         ComoAprender ComoAprenderPost(ComoAprender comoAprender);
-        ComoAprender ComoAprenderPut(ComoAprender comoAprender);
+        ComoAprender ComoAprenderPut(ComoAprender comoAprender, int projetoId, int id);
         ComoAprender ComoAprenderDelete(int projetoId, int id);
 
     }

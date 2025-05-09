@@ -47,12 +47,17 @@ namespace MapL.Repositories
             return comoAprender;
         }
 
-        public ComoAprender ComoAprenderPut(ComoAprender comoAprender)
+        public ComoAprender ComoAprenderPut(ComoAprender comoAprender, int projetoId, int id)
         {
-            var comoAprenderExistente = _context.Comos.FirstOrDefault(x => x.Id == comoAprender.Id);
-            comoAprenderExistente.Texto = comoAprender.Texto;   
+            var comoAprenderExistente = _context.Comos.AsNoTracking().FirstOrDefault(x => x.Id == id && x.ProjetoId == projetoId);
+
+            comoAprender.Id = id;
+            comoAprender.ProjetoId = projetoId;
+
+            _context.Comos.Update(comoAprender);   
             _context.SaveChanges();
-            return comoAprenderExistente;
+            return comoAprender;
         }
+
     }
 }

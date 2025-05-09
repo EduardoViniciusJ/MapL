@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MapL.DTOs;
+using MapL.DTOs.PorDTO;
 using MapL.Models;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -80,8 +80,8 @@ namespace MapL.Controllers
             return CreatedAtAction(nameof(Get), new { id = porqueAprenderNovoDTO.Id }, porqueAprenderNovoDTO);
         }
 
-        [HttpPut]
-        public ActionResult<PorqueAprenderDTO> PutPorqueAprender(PorqueAprenderDTO porqueAprenderDTO)
+        [HttpPut("{projetoId}/porque/{id}")]
+        public ActionResult<PorqueAprenderDTO> PutPorqueAprender(int projetoId, int id, PorqueAprenderDTO porqueAprenderDTO)
         {
             if (porqueAprenderDTO is null)
             {
@@ -90,7 +90,7 @@ namespace MapL.Controllers
 
             var porqueAprender = _mapper.Map<PorqueAprender>(porqueAprenderDTO);
 
-            var porqueAprenderAtualizado = _porqueAprenderRepository.PorqueAprenderPut(porqueAprender);
+            var porqueAprenderAtualizado = _porqueAprenderRepository.PorqueAprenderPut(porqueAprender, projetoId, id);
 
             var porqueAprenderAtualizadoDTO = _mapper.Map<PorqueAprenderDTO>(porqueAprenderAtualizado);
 

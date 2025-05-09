@@ -8,7 +8,7 @@ namespace MapL.Repositories.Interfaces
         PorqueAprender PorqueAprenderGetIdProjeto(int id);
         PorqueAprender PorqueAprenderGetIdPorque(int id);
         PorqueAprender PorqueAprenderPost(PorqueAprender porqueAprender);
-        PorqueAprender PorqueAprenderPut(PorqueAprender porqueAprender);
+        PorqueAprender PorqueAprenderPut(PorqueAprender porqueAprender, int projetoId, int id);
         PorqueAprender PorqueAprenderDelete(int projetoId, int id);
 
     }

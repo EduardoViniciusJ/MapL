@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using MapL.DTOs.ComoDTO;
+using MapL.DTOs.OQueDTO;
+using MapL.DTOs.PorDTO;
 using MapL.Models;
 
 namespace MapL.DTOs

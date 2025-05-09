@@ -21,16 +21,16 @@ namespace MapL.Repositories
             return oQueAprender;
         }
 
-        public OQueAprender OQueAprenderPut(OQueAprender oQueAprender)
+        public OQueAprender OQueAprenderPut(OQueAprender oQueAprender, int projetoId, int id)
         {
-            var oQueAprenderExistente = _context.Oques.FirstOrDefault(x => x.Id == oQueAprender.Id);
+            var oQueAprenderExistente = _context.Oques.AsNoTracking().FirstOrDefault(x => x.Id == id && x.ProjetoId == projetoId);
 
-            oQueAprenderExistente.Conceito = oQueAprender.Conceito;
-            oQueAprenderExistente.Fato = oQueAprender.Fato;
-            oQueAprenderExistente.Procedimento = oQueAprender.Procedimento;
+            oQueAprender.Id = id;
+            oQueAprender.ProjetoId = projetoId;    
 
+            _context.Oques.Update(oQueAprender);
             _context.SaveChanges();
-            return oQueAprenderExistente;
+            return oQueAprender;
         }
 
         public OQueAprender OQueAprenderDelete(int projetoId, int id)

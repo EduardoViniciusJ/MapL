@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MapL.DTOs;
+using MapL.DTOs.ComoDTO;
 using MapL.Models;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -82,8 +83,8 @@ namespace MapL.Controllers
             return CreatedAtAction(nameof(GetComoAprender), new { id = comoAprenderNovo.Id }, comoAprenderNovoDTO);
         }
 
-        [HttpPut]
-        public ActionResult<ComoAprenderDTO> PutComoAprender(ComoAprenderDTO comoAprenderDTO)
+        [HttpPut("{projetoId}/como/{id}")]
+        public ActionResult<ComoAprenderDTO> PutComoAprender(int projetoId, int id, ComoAprenderDTO comoAprenderDTO)
         {
             if (comoAprenderDTO is null)
             {
@@ -92,7 +93,7 @@ namespace MapL.Controllers
 
             var comoAprender = _mapper.Map<ComoAprender>(comoAprenderDTO);
 
-            var comoAprenderAtualizado = _comoAprenderRepository.ComoAprenderPut(comoAprender);
+            var comoAprenderAtualizado = _comoAprenderRepository.ComoAprenderPut(comoAprender, projetoId, id);
 
             var comoAprenderAtualizadoDTO = _mapper.Map<ComoAprenderDTO>(comoAprenderAtualizado);
 

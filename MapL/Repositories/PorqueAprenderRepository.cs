@@ -49,12 +49,16 @@ namespace MapL.Repositories
             return porqueAprender;
         }
 
-        public PorqueAprender PorqueAprenderPut(PorqueAprender porqueAprender)
+        public PorqueAprender PorqueAprenderPut(PorqueAprender porqueAprender, int projetoId, int id)
         {
-            var porqueAprenderExistente = _context.Porques.FirstOrDefault(x => x.Id == porqueAprender.Id);
-            porqueAprenderExistente.Texto = porqueAprender.Texto;   
+            var porqueAprenderExistente = _context.Porques.AsNoTracking().FirstOrDefault(x => x.Id == id && x.ProjetoId == projetoId);
+
+            porqueAprender.Id = id;
+            porqueAprender.ProjetoId = projetoId;
+
+            _context.Porques.Update(porqueAprender);
             _context.SaveChanges();
-            return porqueAprenderExistente;
+            return porqueAprender;
         }
     }
 }

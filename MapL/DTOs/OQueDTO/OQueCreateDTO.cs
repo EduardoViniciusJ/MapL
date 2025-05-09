@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MapL.DTOs
+namespace MapL.DTOs.OQueDTO
 {
     public class OQueCreateDTO
     {

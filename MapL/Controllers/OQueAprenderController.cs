@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MapL.DTOs;
+using MapL.DTOs.OQueDTO;
 using MapL.Models;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -82,8 +82,8 @@ namespace MapL.Controllers
             return CreatedAtAction(nameof(GetOQueAprender), new { id = oQueAprenderCriadoDTO.Id }, oQueAprenderCriadoDTO);
         }
 
-        [HttpPut]
-        public ActionResult<OQueAprenderDTO> PutOQueAprender(OQueAprenderDTO oQueAprenderDTO) {
+        [HttpPut("{projetoId}/porque/{id}")]
+        public ActionResult<OQueAprenderDTO> PutOQueAprender(int projetoId, int id, OQueAprenderDTO oQueAprenderDTO) {
             if (oQueAprenderDTO is null)
             {
                 return BadRequest("Dados inválidos");               
@@ -91,7 +91,7 @@ namespace MapL.Controllers
 
             var oQueAprender = _mapper.Map<OQueAprender>(oQueAprenderDTO);
 
-            var oQueAprenderAtualizado = _oQueAprenderRepository.OQueAprenderPut(oQueAprender);
+            var oQueAprenderAtualizado = _oQueAprenderRepository.OQueAprenderPut(oQueAprender,projetoId,id);
 
             var oQueAprenderAtualizadoDTO = _mapper.Map<OQueAprenderDTO>(oQueAprenderAtualizado);
 

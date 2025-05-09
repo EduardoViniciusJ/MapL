@@ -8,7 +8,7 @@ namespace MapL.Repositories.Interfaces
         IEnumerable<OQueAprender> OQueAprenderGetByIdProjeto(int id);    
         OQueAprender OQueAprenderGetByIdOque(int id);    
         OQueAprender OQueAprenderPost(OQueAprender oQueAprender);
-        OQueAprender OQueAprenderPut(OQueAprender oQueAprender);
+        OQueAprender OQueAprenderPut(OQueAprender oQueAprender, int projetoId, int id);
         OQueAprender OQueAprenderDelete(int projetoId, int id);
 
     }
