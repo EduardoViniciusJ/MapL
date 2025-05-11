@@ -21,11 +21,12 @@ namespace MapL.Controllers
             _mapper = mapper;
         }
 
-        // Mostrar todos os projetos
+
         [HttpGet]
+        // Mostrar todos os projetos
         public ActionResult<IEnumerable<Projeto>> Get()
         {
-            var projetos = _projetoRepository.GetAll().ToList();
+            var projetos = _projetoRepository.ObterTodas().ToList();
             if (projetos is null)
             {
                 return NotFound("Nenhum projeto encontrado.");
@@ -33,11 +34,12 @@ namespace MapL.Controllers
             return Ok(projetos);
 
         }
-        // Mostra um projeto com base no seu id
+
         [HttpGet("{id:int}")]
-        public ActionResult GetById(int id)
+        // Mostra um projeto com base no seu id
+        public ActionResult GetId(int id)
         {
-            var projeto = _projetoRepository.GetById(id);
+            var projeto = _projetoRepository.ObterPorId(id);
             if (projeto is null)
             {
                 return NotFound("Projeto não encontrado.");
@@ -45,8 +47,9 @@ namespace MapL.Controllers
             return Ok(projeto);
         }
 
-        // Criar o projeto mas sem os detalhes
+
         [HttpPost]
+        // Criar o projeto mas sem os detalhes
         public ActionResult<ProjetoDTO> Post(ProjetoDTO projetoDTO)
         {
             if (projetoDTO is null)
@@ -54,17 +57,17 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var projeto = _mapper.Map<Projeto>(projetoDTO);  
+            var projeto = _mapper.Map<Projeto>(projetoDTO);
 
-            var projetoCriado = _projetoRepository.Create(projeto);
+            var projetoCriado = _projetoRepository.Criar(projeto);
 
-            var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoCriado);  
+            var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoCriado);
 
-            return CreatedAtAction(nameof(GetById), new { id = projetoCriadoDTO.Id }, projetoCriadoDTO);
+            return CreatedAtAction(nameof(GetId), new { id = projetoCriadoDTO.Id }, projetoCriadoDTO);
         }
 
-        // Criar um projeto completo 
         [HttpPost("/api/completo")]
+        // Criar um projeto completo 
         public ActionResult<ProjetoCompletoDTO> PostCompleto(ProjetoCompletoDTO projetoCompletoDTO)
         {
             if (projetoCompletoDTO is null)
@@ -72,18 +75,19 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var projeto = _mapper.Map<Projeto>(projetoCompletoDTO); 
+            var projeto = _mapper.Map<Projeto>(projetoCompletoDTO);
 
-            var projetoCriado = _projetoRepository.PostCompleto(projeto);   
+            var projetoCriado = _projetoRepository.CriarProjetoCompleto(projeto);
 
-            var projetoCriadoDTO = _mapper.Map<ProjetoCompletoDTO>(projetoCriado);      
+            var projetoCriadoDTO = _mapper.Map<ProjetoCompletoDTO>(projetoCriado);
 
-            return Ok(projetoCriadoDTO);      
-     
+            return Ok(projetoCriadoDTO);
+
         }
 
+
+        [HttpPut("{id}")]
         // Atualizar um projeto 
-        [HttpPut("{id:int}")]
         public ActionResult<ProjetoDTO> Put(int id, ProjetoDTO projetoDTO)
         {
             if (id != projetoDTO.Id)
@@ -93,7 +97,7 @@ namespace MapL.Controllers
 
             var projeto = _mapper.Map<Projeto>(projetoDTO); 
 
-            var projetoAtualizado = _projetoRepository.Update(projeto);
+            var projetoAtualizado = _projetoRepository.Atualizar(projeto);
 
             var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoAtualizado);
 
@@ -101,11 +105,11 @@ namespace MapL.Controllers
 
         }
 
-        // Deletar um projeto
         [HttpDelete("{id:int}")]
+        // Deletar um projeto
         public ActionResult<ProjetoDTO> Delete(int id)
         {
-            var projeto = _projetoRepository.Delete(id);
+            var projeto = _projetoRepository.Remover(id);
 
             if (projeto is null)
             {

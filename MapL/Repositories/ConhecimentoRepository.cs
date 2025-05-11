@@ -33,32 +33,32 @@ namespace MapL.Repositories
             return conhecimento;
         }
 
-        public Conhecimento OQueAprenderDelete(int projetoId, int id)
+        public Conhecimento Remover(int conhecimentoID, int projetoId)
         {
-            var oQueAprenderExistente = _context.Oques.FirstOrDefault(x => x.Id == id && x.ProjetoId == projetoId);
+            var conhecimentoExistente = _context.Oques.FirstOrDefault(x => x.Id == conhecimentoID && x.ProjetoId == projetoId);
 
-            var OQueAprenderApagado = _context.Oques.Remove(oQueAprenderExistente);
+            var conhecimentoApagado = _context.Oques.Remove(conhecimentoExistente);
             _context.SaveChanges();
-            return OQueAprenderApagado.Entity;
+            return conhecimentoApagado.Entity;
         }
 
-        public IEnumerable<Conhecimento> OQueAprenderGet()
+        public IEnumerable<Conhecimento> ObterTodas()
         {
-            var oQueAprender = _context.Oques.AsNoTracking().ToList();
-            return oQueAprender;
+            var conhecimentos = _context.Oques.AsNoTracking().ToList();
+            return conhecimentos;
         }
 
-        public Conhecimento OQueAprenderGetByIdOque(int id)
+        public Conhecimento ObterPorId(int conhecimentoId)
         {
-            var oQueAprender = _context.Oques.AsNoTracking().FirstOrDefault(x => x.Id == id);
-            return oQueAprender;
+            var conhecimento = _context.Oques.AsNoTracking().FirstOrDefault(x => x.Id == conhecimentoId);
+            return conhecimento;
         }
 
-        public IEnumerable<Conhecimento> OQueAprenderGetByIdProjeto(int id)
+        public IEnumerable<Conhecimento> ObterPorProjetoId(int projetoId)
         {
-            var oQueAprender = _context.Oques.AsNoTracking().Where(x=> x.ProjetoId == id).ToList();
+            var conhecimento = _context.Oques.AsNoTracking().Where(x=> x.ProjetoId == projetoId).ToList();
 
-            return oQueAprender;
+            return conhecimento;
         }
 
     }

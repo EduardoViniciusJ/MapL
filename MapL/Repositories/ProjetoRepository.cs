@@ -14,37 +14,37 @@ namespace MapL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Projeto> GetAll()
+        public IEnumerable<Projeto> ObterTodas()
         {
-            return _context.Projeto.Include(p => p.Porques)
-                                    .Include(p => p.Oques)
-                                    .Include(p => p.Comos).AsNoTracking()
+            return _context.Projeto.Include(p => p.Motivacoes)
+                                    .Include(p => p.Conhecimentos)
+                                    .Include(p => p.Estrategias).AsNoTracking()
                                     .ToList();
         }
 
-        public Projeto GetById(int id)
+        public Projeto ObterPorId(int id)
         {
-            return _context.Projeto.Include(p => p.Porques)
-                                    .Include(p => p.Oques)
-                                    .Include(p => p.Comos).AsNoTracking()
+            return _context.Projeto.Include(p => p.Motivacoes)
+                                    .Include(p => p.Conhecimentos)
+                                    .Include(p => p.Estrategias).AsNoTracking()
                                     .FirstOrDefault(p => p.Id == id);
         }
 
-        public Projeto Create(Projeto projeto)
+        public Projeto Criar(Projeto projeto)
         {
             _context.Projeto.Add(projeto);
             _context.SaveChanges();
             return projeto;
         }
 
-        public Projeto Update(Projeto projeto)
+        public Projeto Atualizar(Projeto projeto)
         {
             _context.Projeto.Update(projeto);
             _context.SaveChanges();
             return projeto;
         }
 
-        public Projeto Delete(int id)
+        public Projeto Remover(int id)
         {
             var projeto = _context.Projeto.Find(id);
             _context.Projeto.Remove(projeto);
@@ -54,7 +54,7 @@ namespace MapL.Repositories
 
         }
 
-        public Projeto PostCompleto(Projeto projeto)
+        public Projeto CriarProjetoCompleto(Projeto projeto)
         {
             _context.Projeto.Add(projeto);
             _context.SaveChanges();

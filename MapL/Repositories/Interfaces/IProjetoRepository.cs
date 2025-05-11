@@ -4,11 +4,11 @@ namespace MapL.Repositories.Interfaces
 {
     public interface IProjetoRepository
     {
-        IEnumerable<Projeto> GetAll();
-        Projeto GetById(int id);
-        Projeto Create(Projeto projeto);
-        Projeto Update(Projeto projeto);
-        Projeto Delete(int id);
-        Projeto PostCompleto(Projeto projeto); 
+        IEnumerable<Projeto> ObterTodas();
+        Projeto ObterPorId(int id);
+        Projeto Criar(Projeto projeto);
+        Projeto Atualizar(Projeto projeto);
+        Projeto Remover(int id);
+        Projeto CriarProjetoCompleto(Projeto projeto); 
     }
 }
