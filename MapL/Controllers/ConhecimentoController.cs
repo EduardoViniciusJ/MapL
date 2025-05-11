@@ -11,21 +11,22 @@ namespace MapL.Controllers
     [ApiController]
     public class ConhecimentoController : Controller
     {
-        private readonly IConhecimentoRepository _conhecimentoRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _uof;
 
 
-        public ConhecimentoController(IConhecimentoRepository conhecimentoRepository, IMapper mapper)
+        public ConhecimentoController(IMapper mapper, IUnitOfWork uof)
         {
-            _conhecimentoRepository = conhecimentoRepository;
             _mapper = mapper;
+            _uof = uof;
         }
 
         [HttpGet]
         // Obter todos os conhecimentos
         public ActionResult<IEnumerable<ConhecimentoDTO>> Get()
         {
-            var conhecimentos = _conhecimentoRepository.ObterTodas();
+
+            var conhecimentos = _uof.Conhecimentos.ObterTodas();
 
             if (conhecimentos == null)
             {
@@ -41,7 +42,7 @@ namespace MapL.Controllers
         // Obter conhecimento por ID
         public ActionResult<ConhecimentoDTO> GetConhecimentoId(int id)
         {
-            var conhecimento = _conhecimentoRepository.ObterPorId(id);
+            var conhecimento = _uof.Conhecimentos.ObterPorId(id);
 
             if (conhecimento == null)
             {
@@ -57,7 +58,7 @@ namespace MapL.Controllers
         // Obter conhecimentos por ID do projeto
         public ActionResult<IEnumerable<ConhecimentoDTO>> GetProjetoId(int id)
         {
-            var conhecimento = _conhecimentoRepository.ObterPorProjetoId(id);
+            var conhecimento = _uof.Conhecimentos.ObterPorProjetoId(id);
             if (conhecimento == null)
             {
                 return NotFound();
@@ -79,7 +80,9 @@ namespace MapL.Controllers
 
             var conhecimento = _mapper.Map<Conhecimento>(conhecimentoDTO);
 
-            var conhecimentoCriado = _conhecimentoRepository.Criar(conhecimento);
+            var conhecimentoCriado = _uof.Conhecimentos.Criar(conhecimento);
+
+            _uof.Commit();
 
             var conhecimentoCriadoDTO = _mapper.Map<ConhecimentoDTO>(conhecimentoCriado);
 
@@ -96,7 +99,9 @@ namespace MapL.Controllers
 
             var conhecimento = _mapper.Map<Conhecimento>(conhecimentoDTO);
 
-            var conhecimentoAtualizado = _conhecimentoRepository.Atualizar(conhecimento, id, projetoId);
+            var conhecimentoAtualizado = _uof.Conhecimentos.Atualizar(conhecimento, id, projetoId);
+
+            _uof.Commit();
 
             var conhecimentoAtualizadoDTO = _mapper.Map<ConhecimentoDTO>(conhecimentoAtualizado);
 
@@ -107,9 +112,11 @@ namespace MapL.Controllers
         // Deletar um conhecimento
         public ActionResult DeleteOQueAprender(int projetoId, int id)
         {
-            var conhecimento = _conhecimentoRepository.Remover(id, projetoId);
+            var conhecimento = _uof.Conhecimentos.Remover(id, projetoId);
 
-            if(conhecimento == null)
+            _uof.Commit();
+
+            if (conhecimento == null)
             {
                 return NotFound("Item não encontrado");
             }   

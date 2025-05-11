@@ -11,20 +11,20 @@ namespace MapL.Controllers
     [ApiController]
     public class MotivacaoController : Controller
     {
-        private readonly IMotivacao _motivacaoRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _uof;
 
-        public MotivacaoController(IMotivacao motivacaoRepository, IMapper mapper)
+        public MotivacaoController(IUnitOfWork uof, IMapper mapper)
         {
-            _motivacaoRepository = motivacaoRepository;
             _mapper = mapper;
+            _uof = uof;
         }
 
         [HttpGet]
         // Obter todas as motivações
         public ActionResult<IEnumerable<MotivacaoDTO>> Get()
         {
-            var motivacoes = _motivacaoRepository.ObterTodas();
+            var motivacoes = _uof.Motivacoes.ObterTodas();
 
             if (motivacoes == null)
             {
@@ -40,7 +40,7 @@ namespace MapL.Controllers
         // Obter motivações por ID do projeto
         public ActionResult<MotivacaoDTO> GetProjetoId(int id)
         {
-            var motivacao = _motivacaoRepository.ObterPorProjetoId(id);
+            var motivacao = _uof.Motivacoes.ObterPorProjetoId(id);
 
             if (motivacao == null)
             {
@@ -56,7 +56,7 @@ namespace MapL.Controllers
         // Obter motivação por ID
         public ActionResult<MotivacaoDTO> GetMotivacaoId(int id)
         {
-            var motivacao = _motivacaoRepository.ObterPorId(id);
+            var motivacao = _uof.Motivacoes.ObterPorId(id);
 
             if (motivacao == null)
             {
@@ -78,7 +78,8 @@ namespace MapL.Controllers
             }
 
             var motivacao = _mapper.Map<Motivacao>(motivacaoDTO);
-            var motivacaoNovo = _motivacaoRepository.Criar(motivacao);
+            var motivacaoNovo = _uof.Motivacoes.Criar(motivacao);
+            _uof.Commit();
             var motivacaoNovoDTO = _mapper.Map<MotivacaoDTO>(motivacaoNovo);
 
             return CreatedAtAction(nameof(Get), new { id = motivacaoNovoDTO.Id }, motivacaoNovoDTO);
@@ -95,7 +96,8 @@ namespace MapL.Controllers
 
             var motivacao = _mapper.Map<Motivacao>(motivacaoDTO);
 
-            var motivacaoAtualizado = _motivacaoRepository.Atualizar(motivacao, projetoId, id);
+            var motivacaoAtualizado = _uof.Motivacoes.Atualizar(motivacao, projetoId, id);
+            _uof.Commit();
 
             var motivacaoAtualizadoDTO = _mapper.Map<MotivacaoDTO>(motivacaoAtualizado);
 
@@ -106,7 +108,8 @@ namespace MapL.Controllers
         // Deletar uma motivação
         public ActionResult Delete(int projetoId, int id)
         {
-            var motivacao = _motivacaoRepository.Remover(projetoId, id);
+            var motivacao = _uof.Motivacoes.Remover(projetoId, id);
+            _uof.Commit();
 
             if (motivacao == null)
             {

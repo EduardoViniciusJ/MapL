@@ -28,10 +28,10 @@ namespace MapL.Repositories
             return estrategia;
         }
 
-        // Obter estratégia por Id do projeto
-        public Estrategia ObterPorProjetoId(int projetoId)
+        // Obter estratégias por Id do projeto
+        public IEnumerable<Estrategia> ObterPorProjetoId(int projetoId)
         {
-            var estrategia = _context.Estrategias.AsNoTracking().FirstOrDefault(x => x.ProjetoId == projetoId);
+            var estrategia = _context.Estrategias.AsNoTracking().Where(x => x.ProjetoId == projetoId).ToList();
             return estrategia;
         }
 
@@ -39,7 +39,6 @@ namespace MapL.Repositories
         public Estrategia Criar(Estrategia estrategia)
         {
             _context.Estrategias.Add(estrategia);
-            _context.SaveChanges();
             return estrategia;
         }
 
@@ -57,7 +56,6 @@ namespace MapL.Repositories
             estrategia.ProjetoId = projetoId;
 
             _context.Estrategias.Update(estrategia);
-            _context.SaveChanges();
             return estrategia;
         }
 
@@ -70,7 +68,6 @@ namespace MapL.Repositories
                 throw new Exception("Estratégia não encontrada");
             }
             var estrategiaRemovido = _context.Estrategias.Remove(estrategia);
-            _context.SaveChanges();
            return estrategiaRemovido.Entity;
         }
     }

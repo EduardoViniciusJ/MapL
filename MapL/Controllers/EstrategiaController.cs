@@ -11,13 +11,13 @@ namespace MapL.Controllers
     [ApiController]
     public class EstrategiaController : Controller
     {
-        private readonly IEstrategiaRepository _estrategiaRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _uof;
 
-        public EstrategiaController(IEstrategiaRepository estrategiaRepository, IMapper mapper)
+        public EstrategiaController(IUnitOfWork uof, IMapper mapper)
         {
-            _estrategiaRepository = estrategiaRepository;
             _mapper = mapper;
+            _uof = uof;
         }
 
 
@@ -25,7 +25,7 @@ namespace MapL.Controllers
         // Obter todas as estratégias
         public ActionResult<IEnumerable<EstrategiaDTO>> Get()
         {
-            var estrategias = _estrategiaRepository.ObterTodas();
+            var estrategias = _uof.Estrategias.ObterTodas();
             if (estrategias is null)
             {
                 return NotFound();
@@ -40,7 +40,7 @@ namespace MapL.Controllers
         // Obter estratégia por Id
         public ActionResult<EstrategiaDTO> GetEstrategiaId(int id)
         {
-            var estrategia = _estrategiaRepository.ObterPorId(id);
+            var estrategia = _uof.Estrategias.ObterPorId(id);
             if (estrategia is null)
             {
                 return BadRequest("Não encontrado");
@@ -54,7 +54,7 @@ namespace MapL.Controllers
         // Obter estratégia por projetoId
         public ActionResult<EstrategiaDTO> GetProjetoId(int projetoId)
         {
-            var estrategia = _estrategiaRepository.ObterPorProjetoId(projetoId);
+            var estrategia = _uof.Estrategias.ObterPorProjetoId(projetoId);
             if (estrategia is null)
             {
                 return BadRequest("Projeto não econtrado");
@@ -76,12 +76,9 @@ namespace MapL.Controllers
 
             var estrategia = _mapper.Map<Estrategia>(estrategiaDTO);
 
-            var estrategiaNovo = _estrategiaRepository.Criar(estrategia);
+            var estrategiaNovo = _uof.Estrategias.Criar(estrategia);
 
-            if (estrategiaNovo is null)
-            {
-                return BadRequest("Erro ao criar o Como Aprender");
-            }
+            _uof.Commit();
 
             var estrategiaNovoDTO = _mapper.Map<EstrategiaDTO>(estrategiaNovo);
 
@@ -99,7 +96,9 @@ namespace MapL.Controllers
 
             var estrategia = _mapper.Map<Estrategia>(estrategiaDTO);
 
-            var estrategiaAtualizado = _estrategiaRepository.Atualizar(estrategia, id, projetoId);
+            var estrategiaAtualizado = _uof.Estrategias.Atualizar(estrategia, id, projetoId);
+
+            _uof.Commit();
 
             var estrategiaAtualizadoDTO = _mapper.Map<EstrategiaDTO>(estrategiaAtualizado);
 
@@ -111,7 +110,9 @@ namespace MapL.Controllers
         // Remover uma estratégia
         public ActionResult Delete(int projetoId, int id)
         {
-            var estrategia = _estrategiaRepository.Remover(id, projetoId);
+            var estrategia = _uof.Estrategias.Remover(id, projetoId);
+
+            _uof.Commit();
 
             if(estrategia == null)
             {

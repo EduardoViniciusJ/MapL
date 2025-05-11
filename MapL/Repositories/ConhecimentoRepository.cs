@@ -17,7 +17,6 @@ namespace MapL.Repositories
         public Conhecimento Criar(Conhecimento conhecimento)
         {
             _context.Conhecimentos.Add(conhecimento);
-            _context.SaveChanges();
             return conhecimento;
         }
 
@@ -29,7 +28,6 @@ namespace MapL.Repositories
             conhecimento.ProjetoId = projetoId;    
 
             _context.Conhecimentos.Update(conhecimento);
-            _context.SaveChanges();
             return conhecimento;
         }
 
@@ -38,7 +36,6 @@ namespace MapL.Repositories
             var conhecimentoExistente = _context.Conhecimentos.FirstOrDefault(x => x.Id == conhecimentoID && x.ProjetoId == projetoId);
 
             var conhecimentoApagado = _context.Conhecimentos.Remove(conhecimentoExistente);
-            _context.SaveChanges();
             return conhecimentoApagado.Entity;
         }
 

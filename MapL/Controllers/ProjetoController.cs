@@ -12,13 +12,13 @@ namespace MapL.Controllers
     [ApiController]
     public class ProjetoController : Controller
     {
-        private readonly IProjetoRepository _projetoRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _uof;
 
-        public ProjetoController(IProjetoRepository projetoRepository, IMapper mapper)
+        public ProjetoController(IUnitOfWork uof, IMapper mapper)
         {
-            _projetoRepository = projetoRepository;
             _mapper = mapper;
+            _uof = uof;
         }
 
 
@@ -26,7 +26,7 @@ namespace MapL.Controllers
         // Mostrar todos os projetos
         public ActionResult<IEnumerable<Projeto>> Get()
         {
-            var projetos = _projetoRepository.ObterTodas().ToList();
+            var projetos = _uof.Projetos.ObterTodas().ToList();
             if (projetos is null)
             {
                 return NotFound("Nenhum projeto encontrado.");
@@ -39,7 +39,7 @@ namespace MapL.Controllers
         // Mostra um projeto com base no seu id
         public ActionResult GetId(int id)
         {
-            var projeto = _projetoRepository.ObterPorId(id);
+            var projeto = _uof.Projetos.ObterPorId(id);
             if (projeto is null)
             {
                 return NotFound("Projeto não encontrado.");
@@ -59,7 +59,9 @@ namespace MapL.Controllers
 
             var projeto = _mapper.Map<Projeto>(projetoDTO);
 
-            var projetoCriado = _projetoRepository.Criar(projeto);
+            var projetoCriado = _uof.Projetos.Criar(projeto);
+
+            _uof.Commit();
 
             var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoCriado);
 
@@ -77,7 +79,9 @@ namespace MapL.Controllers
 
             var projeto = _mapper.Map<Projeto>(projetoCompletoDTO);
 
-            var projetoCriado = _projetoRepository.CriarProjetoCompleto(projeto);
+            var projetoCriado = _uof.Projetos.CriarProjetoCompleto(projeto);
+
+            _uof.Commit();
 
             var projetoCriadoDTO = _mapper.Map<ProjetoCompletoDTO>(projetoCriado);
 
@@ -97,7 +101,9 @@ namespace MapL.Controllers
 
             var projeto = _mapper.Map<Projeto>(projetoDTO); 
 
-            var projetoAtualizado = _projetoRepository.Atualizar(projeto);
+            var projetoAtualizado = _uof.Projetos.Atualizar(projeto);
+
+            _uof.Commit();
 
             var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoAtualizado);
 
@@ -109,7 +115,9 @@ namespace MapL.Controllers
         // Deletar um projeto
         public ActionResult<ProjetoDTO> Delete(int id)
         {
-            var projeto = _projetoRepository.Remover(id);
+            var projeto = _uof.Projetos.Remover(id);
+
+            _uof.Commit();
 
             if (projeto is null)
             {

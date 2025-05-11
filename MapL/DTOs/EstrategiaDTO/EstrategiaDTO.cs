@@ -6,7 +6,7 @@ namespace MapL.DTOs.ComoDTO
     {
         public int Id { get; set; }
         [StringLength(50, MinimumLength = 1, ErrorMessage = "O campo Texto deve ter entre 1 e 150 caracteres.")]
-        public string? Texto { get; set; }
+        public string? Descricao { get; set; }
         public int ProjetoId { get; set; }
 
     }

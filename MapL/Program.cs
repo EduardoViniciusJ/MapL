@@ -23,8 +23,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
 builder.Services.AddScoped<IConhecimentoRepository, ConhecimentoRepository>();
-builder.Services.AddScoped<EstrategiaRepository, EstrategiaRepository>();
-builder.Services.AddScoped<IMotivacao, PorqueAprenderRepository>();
+builder.Services.AddScoped<IEstrategiaRepository, EstrategiaRepository>();
+builder.Services.AddScoped<IMotivacaoRepository, MotivacaoRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
 
 builder.Services.AddAutoMapper(typeof(SolutionDTOMappingProfile).Assembly);
 

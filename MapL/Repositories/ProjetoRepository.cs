@@ -33,14 +33,12 @@ namespace MapL.Repositories
         public Projeto Criar(Projeto projeto)
         {
             _context.Projetos.Add(projeto);
-            _context.SaveChanges();
             return projeto;
         }
 
         public Projeto Atualizar(Projeto projeto)
         {
             _context.Projetos.Update(projeto);
-            _context.SaveChanges();
             return projeto;
         }
 
@@ -48,7 +46,6 @@ namespace MapL.Repositories
         {
             var projeto = _context.Projetos.Find(id);
             _context.Projetos.Remove(projeto);
-            _context.SaveChanges();
             return projeto;
 
 
@@ -57,7 +54,6 @@ namespace MapL.Repositories
         public Projeto CriarProjetoCompleto(Projeto projeto)
         {
             _context.Projetos.Add(projeto);
-            _context.SaveChanges();
             return projeto;
         }
     }

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapL.Repositories
 {
-    public class PorqueAprenderRepository : IMotivacao
+    public class MotivacaoRepository : IMotivacaoRepository
     {
         private readonly AppDbContext _context;
 
-        public PorqueAprenderRepository(AppDbContext context)
+        public MotivacaoRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -19,7 +19,6 @@ namespace MapL.Repositories
         {
             var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
             var motivacaoApagado = _context.Motivacoes.Remove(motivacao);
-            _context.SaveChanges();
             return motivacaoApagado.Entity;    
 
         }
@@ -36,16 +35,15 @@ namespace MapL.Repositories
             return motivacao;
         }
 
-        public Motivacao ObterPorProjetoId(int projetoId)
+        public IEnumerable<Motivacao> ObterPorProjetoId(int projetoId)
         {
-            var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.ProjetoId == projetoId);
+            var motivacao = _context.Motivacoes.AsNoTracking().Where(x => x.ProjetoId == projetoId).ToList();
             return motivacao;
         }
 
         public Motivacao Criar(Motivacao motivacao)
         {
             _context.Motivacoes.Add(motivacao);
-            _context.SaveChanges();
             return motivacao;
         }
 
@@ -57,7 +55,6 @@ namespace MapL.Repositories
             motivacao.ProjetoId = projetoId;
 
             _context.Motivacoes.Update(motivacao);
-            _context.SaveChanges();
             return motivacao;
         }
     }
