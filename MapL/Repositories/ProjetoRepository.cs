@@ -16,7 +16,7 @@ namespace MapL.Repositories
 
         public IEnumerable<Projeto> ObterTodas()
         {
-            return _context.Projeto.Include(p => p.Motivacoes)
+            return _context.Projetos.Include(p => p.Motivacoes)
                                     .Include(p => p.Conhecimentos)
                                     .Include(p => p.Estrategias).AsNoTracking()
                                     .ToList();
@@ -24,7 +24,7 @@ namespace MapL.Repositories
 
         public Projeto ObterPorId(int id)
         {
-            return _context.Projeto.Include(p => p.Motivacoes)
+            return _context.Projetos.Include(p => p.Motivacoes)
                                     .Include(p => p.Conhecimentos)
                                     .Include(p => p.Estrategias).AsNoTracking()
                                     .FirstOrDefault(p => p.Id == id);
@@ -32,22 +32,22 @@ namespace MapL.Repositories
 
         public Projeto Criar(Projeto projeto)
         {
-            _context.Projeto.Add(projeto);
+            _context.Projetos.Add(projeto);
             _context.SaveChanges();
             return projeto;
         }
 
         public Projeto Atualizar(Projeto projeto)
         {
-            _context.Projeto.Update(projeto);
+            _context.Projetos.Update(projeto);
             _context.SaveChanges();
             return projeto;
         }
 
         public Projeto Remover(int id)
         {
-            var projeto = _context.Projeto.Find(id);
-            _context.Projeto.Remove(projeto);
+            var projeto = _context.Projetos.Find(id);
+            _context.Projetos.Remove(projeto);
             _context.SaveChanges();
             return projeto;
 
@@ -56,7 +56,7 @@ namespace MapL.Repositories
 
         public Projeto CriarProjetoCompleto(Projeto projeto)
         {
-            _context.Projeto.Add(projeto);
+            _context.Projetos.Add(projeto);
             _context.SaveChanges();
             return projeto;
         }

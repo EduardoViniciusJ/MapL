@@ -17,8 +17,8 @@ namespace MapL.Repositories
 
         public Motivacao Remover(int projetoId, int motivacaoId)
         {
-            var motivacao = _context.Porques.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
-            var motivacaoApagado = _context.Porques.Remove(motivacao);
+            var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
+            var motivacaoApagado = _context.Motivacoes.Remove(motivacao);
             _context.SaveChanges();
             return motivacaoApagado.Entity;    
 
@@ -26,37 +26,37 @@ namespace MapL.Repositories
 
         public IEnumerable<Motivacao> ObterTodas()
         {
-            var motivacoes = _context.Porques.AsNoTracking().ToList();
+            var motivacoes = _context.Motivacoes.AsNoTracking().ToList();
             return motivacoes;
         }
 
         public Motivacao ObterPorId(int motivacaoId)
         {
-            var motivacao = _context.Porques.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId);
+            var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId);
             return motivacao;
         }
 
         public Motivacao ObterPorProjetoId(int projetoId)
         {
-            var motivacao = _context.Porques.AsNoTracking().FirstOrDefault(x => x.ProjetoId == id);
+            var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.ProjetoId == projetoId);
             return motivacao;
         }
 
         public Motivacao Criar(Motivacao motivacao)
         {
-            _context.Porques.Add(motivacao);
+            _context.Motivacoes.Add(motivacao);
             _context.SaveChanges();
             return motivacao;
         }
 
         public Motivacao Atualizar(Motivacao motivacao, int motivacaoId, int projetoId)
         {
-            var motivacaoExistente = _context.Porques.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
+            var motivacaoExistente = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
 
             motivacao.Id = motivacaoId;
             motivacao.ProjetoId = projetoId;
 
-            _context.Porques.Update(motivacao);
+            _context.Motivacoes.Update(motivacao);
             _context.SaveChanges();
             return motivacao;
         }
