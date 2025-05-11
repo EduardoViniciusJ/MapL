@@ -11,10 +11,10 @@ namespace MapL.Controllers
     [ApiController]
     public class ComoAprenderController : Controller
     {
-        private readonly IComoAprenderRepository _comoAprenderRepository;
+        private readonly EstrategiaRepository _comoAprenderRepository;
         private readonly IMapper _mapper;
 
-        public ComoAprenderController(IComoAprenderRepository comoAprenderRepository, IMapper mapper)
+        public ComoAprenderController(EstrategiaRepository comoAprenderRepository, IMapper mapper)
         {
             _comoAprenderRepository = comoAprenderRepository;
             _mapper = mapper;
@@ -69,7 +69,7 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var comoAprender = _mapper.Map<ComoAprender>(comoAprenderDTO);
+            var comoAprender = _mapper.Map<Estrategia>(comoAprenderDTO);
 
             var comoAprenderNovo = _comoAprenderRepository.ComoAprenderPost(comoAprender);
 
@@ -91,7 +91,7 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var comoAprender = _mapper.Map<ComoAprender>(comoAprenderDTO);
+            var comoAprender = _mapper.Map<Estrategia>(comoAprenderDTO);
 
             var comoAprenderAtualizado = _comoAprenderRepository.ComoAprenderPut(comoAprender, projetoId, id);
 

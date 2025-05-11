@@ -15,7 +15,7 @@ namespace MapL.Repositories
             _context = context;
         }
 
-        public PorqueAprender PorqueAprenderDelete(int projetoId, int id)
+        public Motivacao PorqueAprenderDelete(int projetoId, int id)
         {
             var porqueAprender = _context.Porques.AsNoTracking().FirstOrDefault(x => x.Id == id && x.ProjetoId == projetoId);
             var porqueAprenderApagado = _context.Porques.Remove(porqueAprender);
@@ -24,32 +24,32 @@ namespace MapL.Repositories
 
         }
 
-        public IEnumerable<PorqueAprender> PorqueAprenderGet()
+        public IEnumerable<Motivacao> PorqueAprenderGet()
         {
             var porqueAprender = _context.Porques.AsNoTracking().ToList();
             return porqueAprender;
         }
 
-        public PorqueAprender PorqueAprenderGetIdPorque(int id)
+        public Motivacao PorqueAprenderGetIdPorque(int id)
         {
             var porqueAprender = _context.Porques.AsNoTracking().FirstOrDefault(x => x.Id == id);
             return porqueAprender;
         }
 
-        public PorqueAprender PorqueAprenderGetIdProjeto(int id)
+        public Motivacao PorqueAprenderGetIdProjeto(int id)
         {
             var porqueAprender = _context.Porques.AsNoTracking().FirstOrDefault(x => x.ProjetoId == id);
             return porqueAprender;
         }
 
-        public PorqueAprender PorqueAprenderPost(PorqueAprender porqueAprender)
+        public Motivacao PorqueAprenderPost(Motivacao porqueAprender)
         {
             _context.Porques.Add(porqueAprender);
             _context.SaveChanges();
             return porqueAprender;
         }
 
-        public PorqueAprender PorqueAprenderPut(PorqueAprender porqueAprender, int projetoId, int id)
+        public Motivacao PorqueAprenderPut(Motivacao porqueAprender, int projetoId, int id)
         {
             var porqueAprenderExistente = _context.Porques.AsNoTracking().FirstOrDefault(x => x.Id == id && x.ProjetoId == projetoId);
 

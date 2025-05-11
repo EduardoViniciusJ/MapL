@@ -73,7 +73,7 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var porqueAprender = _mapper.Map<PorqueAprender>(porqueAprendeDto);
+            var porqueAprender = _mapper.Map<Motivacao>(porqueAprendeDto);
             var porqueAprenderNovo = _porqueAprenderRepository.PorqueAprenderPost(porqueAprender);
             var porqueAprenderNovoDTO = _mapper.Map<PorqueAprenderDTO>(porqueAprenderNovo);
 
@@ -88,7 +88,7 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var porqueAprender = _mapper.Map<PorqueAprender>(porqueAprenderDTO);
+            var porqueAprender = _mapper.Map<Motivacao>(porqueAprenderDTO);
 
             var porqueAprenderAtualizado = _porqueAprenderRepository.PorqueAprenderPut(porqueAprender, projetoId, id);
 

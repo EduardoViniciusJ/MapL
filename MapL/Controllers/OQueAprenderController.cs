@@ -11,11 +11,11 @@ namespace MapL.Controllers
     [ApiController]
     public class OQueAprenderController : Controller
     {
-        private readonly IOQueAprenderRepository _oQueAprenderRepository;
+        private readonly IConhecimentoRepository _oQueAprenderRepository;
         private readonly IMapper _mapper;
 
 
-        public OQueAprenderController(IOQueAprenderRepository oQueAprenderRespository, IMapper mapper)
+        public OQueAprenderController(IConhecimentoRepository oQueAprenderRespository, IMapper mapper)
         {
             _oQueAprenderRepository = oQueAprenderRespository;
             _mapper = mapper;
@@ -73,7 +73,7 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var oQueAprender = _mapper.Map<OQueAprender>(oQueAprenderDTO);
+            var oQueAprender = _mapper.Map<Conhecimento>(oQueAprenderDTO);
 
             var oQueAprenderCriado = _oQueAprenderRepository.OQueAprenderPost(oQueAprender);
 
@@ -89,7 +89,7 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");               
             }
 
-            var oQueAprender = _mapper.Map<OQueAprender>(oQueAprenderDTO);
+            var oQueAprender = _mapper.Map<Conhecimento>(oQueAprenderDTO);
 
             var oQueAprenderAtualizado = _oQueAprenderRepository.OQueAprenderPut(oQueAprender,projetoId,id);
 

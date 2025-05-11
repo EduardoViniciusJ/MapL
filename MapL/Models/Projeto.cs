@@ -11,8 +11,8 @@ namespace MapL.Models
         [StringLength(50, MinimumLength = 5, ErrorMessage = "O campo Titulo deve ter entre 5 e 50 caracteres.")]
         public string Titulo { get; set; }
 
-        public IEnumerable<PorqueAprender> Porques { get; set; }
-        public IEnumerable<OQueAprender> Oques { get; set; }
-        public IEnumerable<ComoAprender> Comos { get; set; }
+        public IEnumerable<Motivacao> Motivacoes { get; set; }
+        public IEnumerable<Conhecimento> Conhecimentos { get; set; }
+        public IEnumerable<Estrategia> Estrategias { get; set; }
     }
 }

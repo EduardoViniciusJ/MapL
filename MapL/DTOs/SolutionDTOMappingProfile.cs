@@ -10,15 +10,15 @@ namespace MapL.DTOs
     {
         public SolutionDTOMappingProfile()
         {
-            CreateMap<OQueAprenderDTO, OQueAprender>().ReverseMap();
+            CreateMap<OQueAprenderDTO, Conhecimento>().ReverseMap();
             CreateMap<ProjetoDTO, Projeto>().ReverseMap();
-            CreateMap<ComoAprenderDTO, ComoAprender>().ReverseMap();
-            CreateMap<PorqueAprenderDTO, PorqueAprender>().ReverseMap();
+            CreateMap<ComoAprenderDTO, Estrategia>().ReverseMap();
+            CreateMap<PorqueAprenderDTO, Motivacao>().ReverseMap();
             CreateMap<ProjetoCompletoDTO, Projeto>().ReverseMap();
 
-            CreateMap<PorqueCreateDTO, PorqueAprender>().ReverseMap();
-            CreateMap<ComoCreateDTO, ComoAprender>().ReverseMap();
-            CreateMap<OQueCreateDTO, OQueAprender>().ReverseMap();
+            CreateMap<PorqueCreateDTO, Motivacao>().ReverseMap();
+            CreateMap<ComoCreateDTO, Estrategia>().ReverseMap();
+            CreateMap<OQueCreateDTO, Conhecimento>().ReverseMap();
 
             
          

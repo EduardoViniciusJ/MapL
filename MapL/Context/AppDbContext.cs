@@ -9,8 +9,8 @@ namespace MapL.Context
         {
         }   
         public DbSet<Projeto> Projeto { get; set; }
-        public DbSet<PorqueAprender> Porques { get; set; }
-        public DbSet<OQueAprender> Oques { get; set; }
-        public DbSet<ComoAprender> Comos { get; set; }
+        public DbSet<Motivacao> Porques { get; set; }
+        public DbSet<Conhecimento> Oques { get; set; }
+        public DbSet<Estrategia> Comos { get; set; }
     }
 }

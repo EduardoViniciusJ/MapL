@@ -22,8 +22,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
-builder.Services.AddScoped<IOQueAprenderRepository, OQueAprenderRepository>();
-builder.Services.AddScoped<IComoAprenderRepository, ComoAprenderRepository>();
+builder.Services.AddScoped<IConhecimentoRepository, ConhecimentoRepository>();
+builder.Services.AddScoped<EstrategiaRepository, EstrategiaRepository>();
 builder.Services.AddScoped<IPorqueAprenderRepository, PorqueAprenderRepository>();
 
 builder.Services.AddAutoMapper(typeof(SolutionDTOMappingProfile).Assembly);

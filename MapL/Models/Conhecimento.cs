@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MapL.Models
 {
-    public class OQueAprender
+    public class Conhecimento
     {
         [Key]
         public int Id { get; set; }
