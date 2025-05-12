@@ -16,30 +16,33 @@ namespace MapL.Repositories
             _context = context;
         }
 
-        public Motivacao Remover(int projetoId, int motivacaoId)
+        public async Task<IEnumerable<Motivacao>> ObterTodasAsync()
         {
-            var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
-            var motivacaoApagado = _context.Motivacoes.Remove(motivacao);
-            return motivacaoApagado.Entity;    
-
-        }
-
-        public IEnumerable<Motivacao> ObterTodas()
-        {
-            var motivacoes = _context.Motivacoes.AsNoTracking().ToList();
+            var motivacoes = await _context.Motivacoes.AsNoTracking().ToListAsync();
             return motivacoes;
         }
 
-        public Motivacao ObterPorId(int motivacaoId)
+        public async Task<Motivacao> ObterPorIdAsync(int motivacaoId)
         {
-            var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId);
+            var motivacao = await _context.Motivacoes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == motivacaoId);
             return motivacao;
         }
 
-        public IEnumerable<Motivacao> ObterPorProjetoId(int projetoId)
+        public async Task<IEnumerable<Motivacao>> ObterPorProjetoIdAsync(int projetoId)
         {
-            var motivacao = _context.Motivacoes.AsNoTracking().Where(x => x.ProjetoId == projetoId).ToList();
+            var motivacao = await _context.Motivacoes.AsNoTracking().Where(x => x.ProjetoId == projetoId).ToListAsync();
             return motivacao;
+        }
+
+        public async Task<PagedList<Motivacao>> ObterPorPaginacaoAsync(QueryStringParameters motivacaoParams)
+        {
+            var motivacoesAsync = await ObterTodasAsync();
+
+            var motivacoes = motivacoesAsync.OrderBy(x => x.Id).AsQueryable();
+
+            var motivacoesOrdenadas = PagedList<Motivacao>.ToPagedList(motivacoes, motivacaoParams.PageNumber, motivacaoParams.PageSize);
+
+            return motivacoesOrdenadas;
         }
 
         public Motivacao Criar(Motivacao motivacao)
@@ -59,13 +62,11 @@ namespace MapL.Repositories
             return motivacao;
         }
 
-        public PagedList<Motivacao> ObterPorPaginacao(QueryStringParameters motivacaoParams)
+        public Motivacao Remover(int projetoId, int motivacaoId)
         {
-            var motivacoes = ObterTodas().OrderBy(x => x.Id).AsQueryable();
-
-            var motivacoesOrdenadas = PagedList<Motivacao>.ToPagedList(motivacoes, motivacaoParams.PageNumber, motivacaoParams.PageSize);   
-
-            return motivacoesOrdenadas;
+            var motivacao = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
+            var motivacaoApagado = _context.Motivacoes.Remove(motivacao);
+            return motivacaoApagado.Entity;
         }
     }
 }

@@ -15,40 +15,46 @@ namespace MapL.Repositories
             _context = context;
         }
 
-        // Obter todas as estratégias
-        public IEnumerable<Estrategia> ObterTodas()
+        public async Task<IEnumerable<Estrategia>> ObterTodasAsync()
         {
-            var estrategias = _context.Estrategias.AsNoTracking().ToList();
+            var estrategias = await _context.Estrategias.AsNoTracking().ToListAsync();
             return estrategias;
         }
 
-        // Obter estratégia por Id
-        public Estrategia ObterPorId(int estrategiaId)
+        public async Task<Estrategia> ObterPorIdAsync(int estrategiaId)
         {
-            var estrategia = _context.Estrategias.AsNoTracking().FirstOrDefault(x => x.Id == estrategiaId);
+            var estrategia = await _context.Estrategias.AsNoTracking().FirstOrDefaultAsync(x => x.Id == estrategiaId);
             return estrategia;
         }
 
-        // Obter estratégias por Id do projeto
-        public IEnumerable<Estrategia> ObterPorProjetoId(int projetoId)
+        public async Task<IEnumerable<Estrategia>> ObterPorProjetoIdAsync(int projetoId)
         {
-            var estrategia = _context.Estrategias.AsNoTracking().Where(x => x.ProjetoId == projetoId).ToList();
+            var estrategia = await _context.Estrategias.AsNoTracking().Where(x => x.ProjetoId == projetoId).ToListAsync();
             return estrategia;
         }
 
-        // Criar uma nova estratégia
+        public async Task<PagedList<Estrategia>> ObterPorPaginacaoAsync(QueryStringParameters estrategiasParams)
+        {
+            var estrategiasAsync = await ObterTodasAsync();
+
+            var estrategias = estrategiasAsync.OrderBy(x => x.Id).AsQueryable();
+
+            var estrategiasOrdenadas = PagedList<Estrategia>.ToPagedList(estrategias, estrategiasParams.PageNumber, estrategiasParams.PageSize);
+
+            return estrategiasOrdenadas;
+        }
+
         public Estrategia Criar(Estrategia estrategia)
         {
             _context.Estrategias.Add(estrategia);
             return estrategia;
         }
 
-        // Atualizar uma estratégia 
         public Estrategia Atualizar(Estrategia estrategia, int projetoId, int estrategiaId)
         {
             var estrategiaExistente = _context.Estrategias.AsNoTracking().FirstOrDefault(x => x.Id == estrategiaId && x.ProjetoId == projetoId);
 
-            if(estrategiaExistente == null)
+            if (estrategiaExistente == null)
             {
                 throw new Exception("Estratégia não encontrada");
             }
@@ -60,27 +66,15 @@ namespace MapL.Repositories
             return estrategia;
         }
 
-        // Remove uma estratégia
         public Estrategia Remover(int estrategiaId, int projetoId)
         {
             var estrategia = _context.Estrategias.AsNoTracking().FirstOrDefault(x => x.Id == estrategiaId && x.ProjetoId == projetoId);
-            if(estrategia == null)
+            if (estrategia == null)
             {
                 throw new Exception("Estratégia não encontrada");
             }
             var estrategiaRemovido = _context.Estrategias.Remove(estrategia);
-           return estrategiaRemovido.Entity;
-        }
-
-        // Obter estrategias por paginação
-        public PagedList<Estrategia> ObterPorPaginacao(QueryStringParameters estrategiasParams)
-        {
-            var estrategias = ObterTodas().OrderBy(x => x.Id).AsQueryable();
-
-            var estrategiasOrdenadas =  PagedList<Estrategia>.ToPagedList(estrategias, estrategiasParams.PageNumber, estrategiasParams.PageSize);
-
-            return estrategiasOrdenadas;
-
+            return estrategiaRemovido.Entity;
         }
     }
 }

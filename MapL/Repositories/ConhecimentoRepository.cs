@@ -8,12 +8,41 @@ using System.Linq;
 namespace MapL.Repositories
 {
     public class ConhecimentoRepository : IConhecimentoRepository
-            {
+    {
         private readonly AppDbContext _context;
 
         public ConhecimentoRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<Conhecimento>> ObterTodasAsync()
+        {
+            var conhecimentos = await _context.Conhecimentos.AsNoTracking().ToListAsync();
+            return conhecimentos;
+        }
+
+        public async Task<Conhecimento> ObterPorIdAsync(int conhecimentoId)
+        {
+            var conhecimento = await _context.Conhecimentos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == conhecimentoId);
+            return conhecimento;
+        }
+
+        public async Task<IEnumerable<Conhecimento>> ObterPorProjetoIdAsync(int projetoId)
+        {
+            var conhecimento = await _context.Conhecimentos.AsNoTracking().Where(x => x.ProjetoId == projetoId).ToListAsync();
+            return conhecimento;
+        }
+
+        public async Task<PagedList<Conhecimento>> ObterPorPaginacaoAsync(QueryStringParameters conhecimentosParams)
+        {
+            var conhecimentosAsync = await ObterTodasAsync();
+            
+            var conhecimentos = conhecimentosAsync.OrderBy(x => x.Id).AsQueryable();
+
+            var conhecimentosOrdenados = PagedList<Conhecimento>.ToPagedList(conhecimentos, conhecimentosParams.PageNumber, conhecimentosParams.PageSize); 
+
+            return conhecimentosOrdenados;
         }
 
         public Conhecimento Criar(Conhecimento conhecimento)
@@ -27,7 +56,7 @@ namespace MapL.Repositories
             var conhecimentoExistente = _context.Conhecimentos.AsNoTracking().FirstOrDefault(x => x.Id == conhecimentoId && x.ProjetoId == projetoId);
 
             conhecimento.Id = conhecimentoId;
-            conhecimento.ProjetoId = projetoId;    
+            conhecimento.ProjetoId = projetoId;
 
             _context.Conhecimentos.Update(conhecimento);
             return conhecimento;
@@ -39,35 +68,6 @@ namespace MapL.Repositories
 
             var conhecimentoApagado = _context.Conhecimentos.Remove(conhecimentoExistente);
             return conhecimentoApagado.Entity;
-        }
-
-        public IEnumerable<Conhecimento> ObterTodas()
-        {
-            var conhecimentos = _context.Conhecimentos.AsNoTracking().ToList();
-            return conhecimentos;
-        }
-
-        public Conhecimento ObterPorId(int conhecimentoId)
-        {
-            var conhecimento = _context.Conhecimentos.AsNoTracking().FirstOrDefault(x => x.Id == conhecimentoId);
-            return conhecimento;
-        }
-
-        public IEnumerable<Conhecimento> ObterPorProjetoId(int projetoId)
-        {
-            var conhecimento = _context.Conhecimentos.AsNoTracking().Where(x=> x.ProjetoId == projetoId).ToList();
-
-            return conhecimento;
-        }
-
-        // Obter conhecimentos por paginação
-        public PagedList<Conhecimento> ObterPorPaginacao(QueryStringParameters conhecimentosParams)
-        {
-            var conhecimentos = ObterTodas().OrderBy(x => x.Id).AsQueryable(); // Ordena os conhecimentos pelo ID.
-
-            var conhecimentosOrdenados = PagedList<Conhecimento>.ToPagedList(conhecimentos,conhecimentosParams.PageNumber, conhecimentosParams.PageSize); // Define a paginação dos conhecimentos.
-
-            return conhecimentosOrdenados;
         }
     }
 }

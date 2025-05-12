@@ -15,23 +15,42 @@ namespace MapL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Projeto> ObterTodas()
+        public async Task<IEnumerable<Projeto>> ObterTodasAsync()
         {
-            return _context.Projetos.Include(p => p.Motivacoes)
+            return await _context.Projetos.Include(p => p.Motivacoes)
                                     .Include(p => p.Conhecimentos)
-                                    .Include(p => p.Estrategias).AsNoTracking()
-                                    .ToList();
+                                    .Include(p => p.Estrategias)
+                                    .AsNoTracking()
+                                    .ToListAsync();
         }
 
-        public Projeto ObterPorId(int id)
+        public async Task<Projeto> ObterPorIdAsync(int id)
         {
-            return _context.Projetos.Include(p => p.Motivacoes)
+            return await _context.Projetos.Include(p => p.Motivacoes)
                                     .Include(p => p.Conhecimentos)
-                                    .Include(p => p.Estrategias).AsNoTracking()
-                                    .FirstOrDefault(p => p.Id == id);
+                                    .Include(p => p.Estrategias)
+                                    .AsNoTracking()
+                                    .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<PagedList<Projeto>> ObterPorPaginacaoAsync(QueryStringParameters projetoParameters)
+        {
+            var projetosAsync = await ObterTodasAsync();
+
+            var projetos = projetosAsync.OrderBy(x => x.Id).AsQueryable();  
+
+            var projetoOrdenados = PagedList<Projeto>.ToPagedList(projetos, projetoParameters.PageNumber, projetoParameters.PageSize);
+
+            return projetoOrdenados;
         }
 
         public Projeto Criar(Projeto projeto)
+        {
+            _context.Projetos.Add(projeto);
+            return projeto;
+        }
+
+        public Projeto CriarProjetoCompleto(Projeto projeto)
         {
             _context.Projetos.Add(projeto);
             return projeto;
@@ -48,25 +67,6 @@ namespace MapL.Repositories
             var projeto = _context.Projetos.Find(id);
             _context.Projetos.Remove(projeto);
             return projeto;
-
-
         }
-
-        public Projeto CriarProjetoCompleto(Projeto projeto)
-        {
-            _context.Projetos.Add(projeto);
-            return projeto;
-        }
-
-        public PagedList<Projeto> ObterPorPaginacao(QueryStringParameters projetoParameters)
-        {
-            var projetos = ObterTodas().OrderBy(x => x.Id).AsQueryable();
-
-            var projetoOrdenados = PagedList<Projeto>.ToPagedList(projetos, projetoParameters.PageNumber, projetoParameters.PageSize);  
-
-            return projetoOrdenados;    
-        }
-
-
     }
 }

@@ -13,7 +13,6 @@ namespace MapL.Repositories
         public IConhecimentoRepository Conhecimentos { get; }
         public IProjetoRepository Projetos { get; }
 
-
         public UnitOfWork(AppDbContext context, IMotivacaoRepository motivacaoRepo, IEstrategiaRepository estrategiaRepo, IConhecimentoRepository conhecimentoRepo, IProjetoRepository projetoRepo)
         {
             _context = context;
@@ -23,9 +22,9 @@ namespace MapL.Repositories
             Projetos = projetoRepo;
         }
         
-        public int Commit()
+        public async Task<int> CommitAsync()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
         public void Dispose()
         {

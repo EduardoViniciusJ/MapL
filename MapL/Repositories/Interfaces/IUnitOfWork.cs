@@ -6,6 +6,6 @@
         IEstrategiaRepository Estrategias { get; }
         IMotivacaoRepository Motivacoes { get; }
         IProjetoRepository Projetos { get; }
-        int Commit();
+        Task<int> CommitAsync();
     }
 }

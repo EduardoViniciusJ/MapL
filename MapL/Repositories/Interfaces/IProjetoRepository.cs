@@ -5,12 +5,12 @@ namespace MapL.Repositories.Interfaces
 {
     public interface IProjetoRepository
     {
-        IEnumerable<Projeto> ObterTodas();
-        Projeto ObterPorId(int id);
+        Task<IEnumerable<Projeto>> ObterTodasAsync();
+        Task<Projeto> ObterPorIdAsync(int id);
+        Task<PagedList<Projeto>> ObterPorPaginacaoAsync(QueryStringParameters projetosParams);
         Projeto Criar(Projeto projeto);
+        Projeto CriarProjetoCompleto(Projeto projeto);
         Projeto Atualizar(Projeto projeto);
         Projeto Remover(int id);
-        Projeto CriarProjetoCompleto(Projeto projeto); 
-        PagedList<Projeto> ObterPorPaginacao(QueryStringParameters projetosParams);
     }
 }
