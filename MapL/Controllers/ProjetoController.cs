@@ -2,6 +2,7 @@
 using MapL.Context;
 using MapL.DTOs;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -99,7 +100,7 @@ namespace MapL.Controllers
                 return BadRequest("Dados inválidos");
             }
 
-            var projeto = _mapper.Map<Projeto>(projetoDTO); 
+            var projeto = _mapper.Map<Projeto>(projetoDTO);
 
             var projetoAtualizado = _uof.Projetos.Atualizar(projeto);
 
@@ -128,5 +129,30 @@ namespace MapL.Controllers
 
             return Ok(projetoDeletadoDTO);
         }
+
+        [HttpGet("pagination")]
+        // Obter projetos por paginação
+        public ActionResult<IEnumerable<ProjetoDTO>> GetProjetoPorPaginacao([FromQuery] QueryStringParameters projetosParameters)
+        {
+            var projetos = _uof.Projetos.ObterPorPaginacao(projetosParameters);
+
+            var metadata = new
+            {
+                projetos.TotalCount,
+                projetos.PageSize,
+                projetos.CurrentPage,
+                projetos.TotalPage,
+                projetos.HasNext,
+                projetos.HasPrevious,
+            };
+
+            Response.Headers.Append("X-Pagination", System.Text.Json.JsonSerializer.Serialize(metadata));
+
+            var projetosDTO = _mapper.Map<IEnumerable<ProjetoDTO>>(projetos);
+
+            return Ok(projetosDTO);
+        }
+
+
     }
 }

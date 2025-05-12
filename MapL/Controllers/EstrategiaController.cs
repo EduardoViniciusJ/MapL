@@ -2,6 +2,7 @@
 using MapL.DTOs;
 using MapL.DTOs.ComoDTO;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -120,11 +121,31 @@ namespace MapL.Controllers
             }
 
             return Ok(estrategia);
-        }   
+        }
 
 
+        [HttpGet("pagination")]
+        // Obter estratégias por paginação
+        public ActionResult GetEstrategiasPorPaginacao([FromQuery] QueryStringParameters estrategiasParameters)
+        {
+            var conhecimentos = _uof.Estrategias.ObterPorPaginacao(estrategiasParameters);
 
+            var metadata = new
+            {
+                conhecimentos.TotalCount,
+                conhecimentos.PageSize,
+                conhecimentos.CurrentPage,
+                conhecimentos.TotalPage,
+                conhecimentos.HasNext,
+                conhecimentos.HasPrevious,
+            };
 
+            Response.Headers.Append("X-Pagination", System.Text.Json.JsonSerializer.Serialize(metadata));
+
+            var estrategiasDTO = _mapper.Map<IEnumerable<EstrategiaDTO>>(conhecimentos);
+
+            return Ok(estrategiasDTO);
+        }
     }
 }
 

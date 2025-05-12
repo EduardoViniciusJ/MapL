@@ -1,4 +1,5 @@
 ﻿using MapL.Models;
+using MapL.Pagination;
 
 namespace MapL.Repositories.Interfaces
 {
@@ -10,6 +11,7 @@ namespace MapL.Repositories.Interfaces
         Conhecimento Criar(Conhecimento conhecimento);
         Conhecimento Atualizar(Conhecimento conhecimento, int conhecimentoId, int projetoId);
         Conhecimento Remover(int conhecimentoId, int projetoId);
+        PagedList<Conhecimento> ObterPorPaginacao(QueryStringParameters conhecimentosParams);
 
     }
 }

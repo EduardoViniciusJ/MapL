@@ -1,5 +1,6 @@
 ﻿using MapL.Context;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -69,6 +70,17 @@ namespace MapL.Repositories
             }
             var estrategiaRemovido = _context.Estrategias.Remove(estrategia);
            return estrategiaRemovido.Entity;
+        }
+
+        // Obter estrategias por paginação
+        public PagedList<Estrategia> ObterPorPaginacao(QueryStringParameters estrategiasParams)
+        {
+            var estrategias = ObterTodas().OrderBy(x => x.Id).AsQueryable();
+
+            var estrategiasOrdenadas =  PagedList<Estrategia>.ToPagedList(estrategias, estrategiasParams.PageNumber, estrategiasParams.PageSize);
+
+            return estrategiasOrdenadas;
+
         }
     }
 }

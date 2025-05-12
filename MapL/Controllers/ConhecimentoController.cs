@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MapL.DTOs.OQueDTO;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -122,6 +123,27 @@ namespace MapL.Controllers
             }   
 
             return Ok(conhecimento);    
+        }
+
+        [HttpGet("pagination")]
+        // Obter conhecimentos com paginação
+        public ActionResult<IEnumerable<ConhecimentoDTO>> GetConhecimentoPaginacao([FromQuery] QueryStringParameters conhecimentosParameters)
+        {
+            var conhecimentos = _uof.Conhecimentos.ObterPorPaginacao(conhecimentosParameters);
+
+            var metadata = new
+            {
+                conhecimentos.TotalCount,
+                conhecimentos.PageSize,
+                conhecimentos.CurrentPage,
+                conhecimentos.TotalPage,
+                conhecimentos.HasNext,
+                conhecimentos.HasPrevious,
+            };
+            Response.Headers.Append("X-Pagination", System.Text.Json.JsonSerializer.Serialize(metadata));  // Informações para o cliente da páginação
+
+            var conhecimentosDTO = _mapper.Map<IEnumerable<ConhecimentoDTO>>(conhecimentos);
+            return Ok(conhecimentosDTO);
         }
 
     }

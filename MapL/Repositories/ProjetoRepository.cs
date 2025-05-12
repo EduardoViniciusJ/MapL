@@ -1,5 +1,6 @@
 ﻿using MapL.Context;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -56,5 +57,16 @@ namespace MapL.Repositories
             _context.Projetos.Add(projeto);
             return projeto;
         }
+
+        public PagedList<Projeto> ObterPorPaginacao(QueryStringParameters projetoParameters)
+        {
+            var projetos = ObterTodas().OrderBy(x => x.Id).AsQueryable();
+
+            var projetoOrdenados = PagedList<Projeto>.ToPagedList(projetos, projetoParameters.PageNumber, projetoParameters.PageSize);  
+
+            return projetoOrdenados;    
+        }
+
+
     }
 }

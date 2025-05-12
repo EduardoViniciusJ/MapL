@@ -1,6 +1,7 @@
 ﻿using MapL.Context;
 using MapL.Controllers;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -56,6 +57,15 @@ namespace MapL.Repositories
 
             _context.Motivacoes.Update(motivacao);
             return motivacao;
+        }
+
+        public PagedList<Motivacao> ObterPorPaginacao(QueryStringParameters motivacaoParams)
+        {
+            var motivacoes = ObterTodas().OrderBy(x => x.Id).AsQueryable();
+
+            var motivacoesOrdenadas = PagedList<Motivacao>.ToPagedList(motivacoes, motivacaoParams.PageNumber, motivacaoParams.PageSize);   
+
+            return motivacoesOrdenadas;
         }
     }
 }

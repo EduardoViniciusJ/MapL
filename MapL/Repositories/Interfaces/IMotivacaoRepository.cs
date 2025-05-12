@@ -1,4 +1,5 @@
 ﻿using MapL.Models;
+using MapL.Pagination;
 
 namespace MapL.Repositories.Interfaces
 {
@@ -10,5 +11,6 @@ namespace MapL.Repositories.Interfaces
         Motivacao Criar(Motivacao porqueAprender);
         Motivacao Atualizar(Motivacao porqueAprender, int projetoId, int id);
         Motivacao Remover(int projetoId, int id);
+        PagedList<Motivacao> ObterPorPaginacao(QueryStringParameters motivacaoParams);
     }
 }

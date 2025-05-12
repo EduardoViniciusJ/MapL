@@ -1,7 +1,9 @@
 ﻿using MapL.Context;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace MapL.Repositories
 {
@@ -58,5 +60,14 @@ namespace MapL.Repositories
             return conhecimento;
         }
 
+        // Obter conhecimentos por paginação
+        public PagedList<Conhecimento> ObterPorPaginacao(QueryStringParameters conhecimentosParams)
+        {
+            var conhecimentos = ObterTodas().OrderBy(x => x.Id).AsQueryable(); // Ordena os conhecimentos pelo ID.
+
+            var conhecimentosOrdenados = PagedList<Conhecimento>.ToPagedList(conhecimentos,conhecimentosParams.PageNumber, conhecimentosParams.PageSize); // Define a paginação dos conhecimentos.
+
+            return conhecimentosOrdenados;
+        }
     }
 }

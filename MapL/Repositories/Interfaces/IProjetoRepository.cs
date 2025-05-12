@@ -1,4 +1,5 @@
 ﻿using MapL.Models;
+using MapL.Pagination;
 
 namespace MapL.Repositories.Interfaces
 {
@@ -10,5 +11,6 @@ namespace MapL.Repositories.Interfaces
         Projeto Atualizar(Projeto projeto);
         Projeto Remover(int id);
         Projeto CriarProjetoCompleto(Projeto projeto); 
+        PagedList<Projeto> ObterPorPaginacao(QueryStringParameters projetosParams);
     }
 }

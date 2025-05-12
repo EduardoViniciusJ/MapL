@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MapL.DTOs.PorDTO;
 using MapL.Models;
+using MapL.Pagination;
 using MapL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -119,6 +120,28 @@ namespace MapL.Controllers
             return Ok(motivacao);
         }
 
+        [HttpGet("pagination")]
+        // Obter motivações com paginação
+        public ActionResult<IEnumerable<MotivacaoDTO>> GetMotivacoesPorPaginacao([FromQuery] QueryStringParameters motivacoesParameters)
+        {
+            var motivacoes = _uof.Motivacoes.ObterPorPaginacao(motivacoesParameters);
+
+            var metadata = new
+            {
+                motivacoes.TotalCount,
+                motivacoes.PageSize,
+                motivacoes.CurrentPage,
+                motivacoes.TotalPage,
+                motivacoes.HasNext,
+                motivacoes.HasPrevious,
+            };
+
+            Response.Headers.Append("X-Pagination", System.Text.Json.JsonSerializer.Serialize(metadata));
+
+            var motivacoesDTO = _mapper.Map<IEnumerable<MotivacaoDTO>>(motivacoes);
+
+            return Ok(motivacoesDTO);
+        }
 
 
 
