@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Database connection 
+// Conexao com o banco de dados
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));   
@@ -20,6 +20,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+// Definindo o esquema de autenticação JWT 
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
 builder.Services.AddScoped<IConhecimentoRepository, ConhecimentoRepository>();
