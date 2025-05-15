@@ -171,3 +171,5 @@ C:\Users\Eduardo\Desktop\mapa meta-aprendizado\MapL\MapL\bin\Debug\net8.0\AutoMa
 C:\Users\Eduardo\Desktop\mapa meta-aprendizado\MapL\MapL\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Eduardo\Desktop\mapa meta-aprendizado\MapL\MapL\bin\Debug\net8.0\X.PagedList.dll
 C:\Users\Eduardo\Desktop\mapa meta-aprendizado\MapL\MapL\bin\Debug\net8.0\X.PagedList.Mvc.Core.dll
+C:\Users\Eduardo\Desktop\mapa meta-aprendizado\MapL\MapL\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Eduardo\Desktop\mapa meta-aprendizado\MapL\MapL\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

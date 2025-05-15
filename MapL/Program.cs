@@ -2,6 +2,7 @@ using MapL.Context;
 using MapL.DTOs;
 using MapL.Repositories;
 using MapL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -22,6 +23,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 // Definindo o esquema de autenticação JWT 
 builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+
+// Registrando os serviços do identity 
+builder.Services.AddIdentity<IdentityUser,  IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
 builder.Services.AddScoped<IConhecimentoRepository, ConhecimentoRepository>();
