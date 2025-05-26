@@ -1,9 +1,12 @@
 ﻿using MapL.DTOs;
 using MapL.Models;
+using MapL.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace MapL.Controllers
 {
@@ -13,11 +16,15 @@ namespace MapL.Controllers
     {
         private readonly UserManager<Users> _userManager;
         private readonly RoleManager<IdentityRole>? _roleManager;
+        private readonly ITokenService _tokenService;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<Users> userManager, RoleManager<IdentityRole>? roleManager)
+        public AuthController(UserManager<Users> userManager, RoleManager<IdentityRole>? roleManager, ITokenService tokenService, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _tokenService = tokenService;
+            _configuration = configuration;
         }
 
         [HttpPost("login")]
@@ -37,10 +44,21 @@ namespace MapL.Controllers
                 return Unauthorized(new { message = "Username ou senha incorretos." });
             }
 
+            // Define as claims do usuário
+            var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, loginDTO.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            // Cria o token de acesso
+            var token = _tokenService.GenerateAccessToken(authClaims, _configuration);
+
             // Http 200
             return Ok(new
             {
-                message = "Usuário logado com sucesso"
+                message = "Usuário logado com sucesso",
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
             });
         }
 

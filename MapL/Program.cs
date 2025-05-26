@@ -4,6 +4,8 @@ using MapL.Migrations;
 using MapL.Models;
 using MapL.Repositories;
 using MapL.Repositories.Interfaces;
+using MapL.Services;
+using MapL.Services.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +63,7 @@ builder.Services.AddScoped<IConhecimentoRepository, ConhecimentoRepository>();
 builder.Services.AddScoped<IEstrategiaRepository, EstrategiaRepository>();
 builder.Services.AddScoped<IMotivacaoRepository, MotivacaoRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ITokenService, TokenService>();  
 
 
 
