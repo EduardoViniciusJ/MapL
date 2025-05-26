@@ -4,6 +4,7 @@ using MapL.DTOs.OQueDTO;
 using MapL.DTOs.PorDTO;
 using MapL.Models;
 
+
 namespace MapL.DTOs
 {
     public class SolutionDTOMappingProfile : Profile
@@ -18,9 +19,7 @@ namespace MapL.DTOs
 
             CreateMap<MotivacaoCriarDTO, Motivacao>().ReverseMap();
             CreateMap<EstrategiaCriarDTO, Estrategia>().ReverseMap();
-            CreateMap<ConhecimentoCriarDTO, Conhecimento>().ReverseMap();
-
-            CreateMap<LoginDTO, Users>().ReverseMap();        
+            CreateMap<ConhecimentoCriarDTO, Conhecimento>().ReverseMap();      
          
         }
     }

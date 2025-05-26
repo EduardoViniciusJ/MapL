@@ -3,6 +3,7 @@ using MapL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace MapL.Controllers
 {
@@ -10,11 +11,12 @@ namespace MapL.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<Users>? _userManager;
-        private readonly RoleManager<Users>? _roleManager;
+        private readonly UserManager<Users> _userManager;
+        private readonly RoleManager<IdentityRole>? _roleManager;
 
-        public AuthController(UserManager<Users>? userManager, RoleManager<Users>? roleManager)
+        public AuthController(UserManager<Users> userManager, RoleManager<IdentityRole>? roleManager)
         {
+            Console.WriteLine("AuthController foi construído!");
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -29,15 +31,46 @@ namespace MapL.Controllers
             }
 
             return Ok($"Usuário logado com sucesso {user.Email} e {user.UserName}");
-
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] LoginDTO userDTO)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem(ModelState);
+            }
 
+            var userExiste = await _userManager.FindByNameAsync(registerDTO.Username);
+
+            if(userExiste != null)
+            {
+                return Conflict(new {message = "Usuário já existe."});
+            }
+
+            Users user = new()
+            {
+                Email = registerDTO.Email,
+                UserName = registerDTO.Username,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            var result = await _userManager.CreateAsync(user, registerDTO.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new
+                {
+                    message = "Erro ao criar a conta.",
+                    errors = result.Errors.Select(e=> e.Description)
+                });
+            }
+
+            return Created("", new
+            {
+                message = "Usuário criado com sucesso.",
+                username = user.UserName,
+                email = user.Email
+            });
         }
-
-
-
     }
 }

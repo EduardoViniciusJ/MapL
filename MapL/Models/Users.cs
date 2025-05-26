@@ -4,5 +4,7 @@ namespace MapL.Models
 {
     public class Users : IdentityUser
     {
+
+
     }
 }

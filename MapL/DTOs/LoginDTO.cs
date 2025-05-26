@@ -8,8 +8,5 @@ namespace MapL.DTOs
         public string Username { get; set; }
         [Required(ErrorMessage = "É necessário colocar a senha de acesso.")]
         public string Password { get; set; }
-        [Required(ErrorMessage = "É necessário colocar o e-mail de acesso.")]
-        [EmailAddress]
-        public string Email { get; set; }
     }
 }

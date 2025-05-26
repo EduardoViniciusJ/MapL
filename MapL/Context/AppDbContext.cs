@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapL.Context
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<Users>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
