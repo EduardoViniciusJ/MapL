@@ -16,22 +16,36 @@ namespace MapL.Controllers
 
         public AuthController(UserManager<Users> userManager, RoleManager<IdentityRole>? roleManager)
         {
-            Console.WriteLine("AuthController foi construído!");
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO userDTO)
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
-            var user = await _userManager.FindByNameAsync(userDTO.Username);
-            if (user is null && await _userManager.CheckPasswordAsync(user, userDTO.Password))
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Usuário não encontrado ou nome de usuário e senha inválidos.");
+                return ValidationProblem(ModelState);
             }
 
-            return Ok($"Usuário logado com sucesso {user.Email} e {user.UserName}");
+            // Procura o usuário com base no seu username.
+            var user = await _userManager.FindByNameAsync(loginDTO.Username);
+
+            // Valida o usuário se ele existe e se suas credenciais estão certas, se não retorna Http 401
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
+            {
+                return Unauthorized(new { message = "Username ou senha incorretos." });
+            }
+
+            // Http 200
+            return Ok(new
+            {
+                message = "Usuário logado com sucesso"
+            });
         }
+
+
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
@@ -40,31 +54,35 @@ namespace MapL.Controllers
                 return ValidationProblem(ModelState);
             }
 
+            // Procura o usuário com base no seu username.
             var userExiste = await _userManager.FindByNameAsync(registerDTO.Username);
 
-            if(userExiste != null)
+            // Valida se existe um usuário com o username fornecido, retornando Http 409 caso exista.
+            if (userExiste != null)
             {
-                return Conflict(new {message = "Usuário já existe."});
+                return Conflict(new { message = "Usuário já existe." });
             }
 
+            // Cria o usuário com base nas credenciais fornecidas. 
             Users user = new()
             {
                 Email = registerDTO.Email,
                 UserName = registerDTO.Username,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
-
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
+            // Se usuário não colocou as credencias conforme as regras do Identity, retorna Http 400
             if (!result.Succeeded)
             {
                 return BadRequest(new
                 {
                     message = "Erro ao criar a conta.",
-                    errors = result.Errors.Select(e=> e.Description)
+                    errors = result.Errors.Select(e => e.Description)
                 });
             }
 
+            // Http 201
             return Created("", new
             {
                 message = "Usuário criado com sucesso.",
