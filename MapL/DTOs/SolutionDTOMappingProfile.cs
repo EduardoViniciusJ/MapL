@@ -20,7 +20,7 @@ namespace MapL.DTOs
             CreateMap<EstrategiaCriarDTO, Estrategia>().ReverseMap();
             CreateMap<ConhecimentoCriarDTO, Conhecimento>().ReverseMap();
 
-            
+            CreateMap<LoginDTO, Users>().ReverseMap();        
          
         }
     }
