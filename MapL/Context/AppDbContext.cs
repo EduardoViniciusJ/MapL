@@ -13,5 +13,12 @@ namespace MapL.Context
         public DbSet<Motivacao> Motivacoes { get; set; }
         public DbSet<Conhecimento> Conhecimentos { get; set; }
         public DbSet<Estrategia> Estrategias { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+
+
     }
 }

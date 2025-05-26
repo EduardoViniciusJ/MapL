@@ -4,8 +4,11 @@ using MapL.Migrations;
 using MapL.Models;
 using MapL.Repositories;
 using MapL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,11 +26,34 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-// Definindo o esquema de autenticação JWT 
-builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 
-// Registrando os serviços do identity 
-builder.Services.AddIdentity<Users, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+
+// Definindo o esquema de autenticação JWT 
+var secretKey = builder.Configuration["JWT:SecretKey"] ?? throw new ArgumentException("Senha secreta inválida");
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;    
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero, 
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), 
+    };
+});
+
+
+// Registrando os serviços do identity e exigindo que seja feito a confirmação por email.
+builder.Services.AddIdentity<Users, IdentityRole>(options => { options.SignIn.RequireConfirmedEmail = true; }).AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();

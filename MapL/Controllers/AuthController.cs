@@ -45,7 +45,6 @@ namespace MapL.Controllers
         }
 
 
-
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
@@ -71,7 +70,8 @@ namespace MapL.Controllers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
-
+            var tokenEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                                                                        
             // Se usuário não colocou as credencias conforme as regras do Identity, retorna Http 400
             if (!result.Succeeded)
             {
@@ -90,5 +90,9 @@ namespace MapL.Controllers
                 email = user.Email
             });
         }
+
+     
+
+
     }
 }
