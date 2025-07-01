@@ -43,13 +43,21 @@ namespace MapL.Controllers
             {
                 return Unauthorized(new { message = "Username ou senha incorretos." });
             }
-
+      
             // Define as claims do usuário
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, loginDTO.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),             // pq nao pode ser aqui nesse bloco de código ??? 
+          
             };
+
+            // Adicionando as roles as claims
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach(var role in roles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, role));
+            }      
 
             // Cria o token de acesso
             var token = _tokenService.GenerateAccessToken(authClaims, _configuration);
@@ -64,7 +72,7 @@ namespace MapL.Controllers
 
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
+        public async Task<IActionResult> Registro([FromBody] RegisterDTO registerDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -88,6 +96,7 @@ namespace MapL.Controllers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
+            var role = await _userManager.AddToRoleAsync(user, "user");
             var tokenEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                                                                         
             // Se usuário não colocou as credencias conforme as regras do Identity, retorna Http 400

@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "MapL",
-    "version": "1.0"
+    "title": "MapL API",
+    "version": "v1"
   },
   "paths": {
     "/api/Auth/login": {
@@ -932,7 +932,7 @@
         }
       }
     },
-    "/api/Motivacao/{projetoId}/porque/{id}": {
+    "/api/Motivacao/{projetoId}/motivacao/{id}": {
       "put": {
         "tags": [
           "Motivacao"
@@ -1676,6 +1676,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Insira o token JWT no campo abaixo: ",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

@@ -4,11 +4,13 @@ using MapL.DTOs;
 using MapL.Models;
 using MapL.Pagination;
 using MapL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapL.Controllers
 {
+    [Authorize(Roles = "user")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjetoController : Controller

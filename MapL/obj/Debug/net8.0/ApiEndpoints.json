@@ -17,7 +17,7 @@
   },
   {
     "ContainingType": "MapL.Controllers.AuthController",
-    "Method": "Register",
+    "Method": "Registro",
     "RelativePath": "api/Auth/register",
     "HttpMethod": "POST",
     "IsController": true,
@@ -530,7 +530,7 @@
   {
     "ContainingType": "MapL.Controllers.MotivacaoController",
     "Method": "Put",
-    "RelativePath": "api/Motivacao/{projetoId}/porque/{id}",
+    "RelativePath": "api/Motivacao/{projetoId}/motivacao/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -566,7 +566,7 @@
   {
     "ContainingType": "MapL.Controllers.MotivacaoController",
     "Method": "Delete",
-    "RelativePath": "api/Motivacao/{projetoId}/porque/{id}",
+    "RelativePath": "api/Motivacao/{projetoId}/motivacao/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
