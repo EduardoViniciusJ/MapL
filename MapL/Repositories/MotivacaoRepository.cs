@@ -54,10 +54,6 @@ namespace MapL.Repositories
         public Motivacao Atualizar(Motivacao motivacao, int motivacaoId, int projetoId)
         {
             var motivacaoExistente = _context.Motivacoes.AsNoTracking().FirstOrDefault(x => x.Id == motivacaoId && x.ProjetoId == projetoId);
-
-            motivacao.Id = motivacaoId;
-            motivacao.ProjetoId = projetoId;
-
             _context.Motivacoes.Update(motivacao);
             return motivacao;
         }

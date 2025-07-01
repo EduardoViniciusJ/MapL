@@ -29,7 +29,7 @@ namespace MapL.Controllers
 
             if (conhecimentos == null)
             {
-                return NotFound();
+                return NotFound("Nenhum conhecimento encontrado.");
             }
 
             var conhecimentosDTO = _mapper.Map<IEnumerable<ConhecimentoDTO>>(conhecimentos);
@@ -44,7 +44,7 @@ namespace MapL.Controllers
 
             if (conhecimento == null)
             {
-                return NotFound();
+                return NotFound("Nenhuma estratégia encontrada.");
             }
 
             var conhecimentoDTO = _mapper.Map<ConhecimentoDTO>(conhecimento);
@@ -58,7 +58,7 @@ namespace MapL.Controllers
             var conhecimento = await _uof.Conhecimentos.ObterPorProjetoIdAsync(id);
             if (conhecimento == null)
             {
-                return NotFound();
+                return NotFound("Projeto não encontrado.");
             }
 
             var conhecimentoDTO = _mapper.Map<IEnumerable<ConhecimentoDTO>>(conhecimento);
@@ -129,7 +129,7 @@ namespace MapL.Controllers
             _uof.Commit();
             if (conhecimento == null)
             {
-                return NotFound("Item não encontrado");
+                return NotFound("Conhecimento não encontrado.");
             }
 
             return Ok(conhecimento);

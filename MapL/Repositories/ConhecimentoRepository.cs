@@ -54,10 +54,6 @@ namespace MapL.Repositories
         public Conhecimento Atualizar(Conhecimento conhecimento, int conhecimentoId, int projetoId)
         {
             var conhecimentoExistente = _context.Conhecimentos.AsNoTracking().FirstOrDefault(x => x.Id == conhecimentoId && x.ProjetoId == projetoId);
-
-            conhecimento.Id = conhecimentoId;
-            conhecimento.ProjetoId = projetoId;
-
             _context.Conhecimentos.Update(conhecimento);
             return conhecimento;
         }

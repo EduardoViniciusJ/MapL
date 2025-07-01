@@ -29,7 +29,7 @@ namespace MapL.Controllers
 
             if (motivacoes == null)
             {
-                return NotFound();
+                return NotFound("Nenhuma motivação encontrada.");
             }
 
             var motivacoesDTO = _mapper.Map<IEnumerable<MotivacaoDTO>>(motivacoes);
@@ -44,7 +44,7 @@ namespace MapL.Controllers
 
             if (motivacao == null)
             {
-                return NotFound();
+                return NotFound("Projeto não encontrado.");
             }
 
             var motivacaoDTO = _mapper.Map<IEnumerable<MotivacaoDTO>>(motivacao);
@@ -59,7 +59,7 @@ namespace MapL.Controllers
 
             if (motivacao == null)
             {
-                return NotFound();
+                return NotFound("Nenhuma motivação encontrada.");
             }
 
             var motivacaoDTO = _mapper.Map<MotivacaoDTO>(motivacao);
@@ -105,7 +105,7 @@ namespace MapL.Controllers
         }
 
         // Atualizar uma motivação
-        [HttpPut("{projetoId}/porque/{id}")]
+        [HttpPut("{projetoId}/motivacao/{id}")]
         public async Task<ActionResult<MotivacaoDTO>> Put(MotivacaoDTO motivacaoDTO, int projetoId, int id)
         {
             if (motivacaoDTO is null)
@@ -115,20 +115,23 @@ namespace MapL.Controllers
 
             var motivacao = _mapper.Map<Motivacao>(motivacaoDTO);
             var motivacaoAtualizado = _uof.Motivacoes.Atualizar(motivacao, projetoId, id);
+
             _uof.Commit();
+
             var motivacaoAtualizadoDTO = _mapper.Map<MotivacaoDTO>(motivacaoAtualizado);
             return Ok(motivacaoAtualizadoDTO);
         }
 
         // Deletar uma motivação
-        [HttpDelete("{projetoId}/porque/{id}")]
+        [HttpDelete("{projetoId}/motivacao/{id}")]
         public async Task<ActionResult> Delete(int projetoId, int id)
         {
             var motivacao = _uof.Motivacoes.Remover(projetoId, id);
             _uof.Commit();
+
             if (motivacao == null)
             {
-                return NotFound("Item não encontrado");
+                return NotFound("Motivação não encontrada.");
             }
 
             return Ok(motivacao);

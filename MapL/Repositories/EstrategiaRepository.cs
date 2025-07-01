@@ -52,11 +52,7 @@ namespace MapL.Repositories
 
         public Estrategia Atualizar(Estrategia estrategia, int projetoId, int estrategiaId)
         {
-            var estrategiaExistente = _context.Estrategias.AsNoTracking().FirstOrDefault(x => x.Id == estrategiaId && x.ProjetoId == projetoId);
-
-            estrategia.Id = estrategiaId;
-            estrategia.ProjetoId = projetoId;
-
+            var estrategiaExistente = _context.Estrategias.AsNoTracking().FirstOrDefault(x => x.Id == estrategiaId && x.ProjetoId == projetoId);       
             _context.Estrategias.Update(estrategia);
             return estrategia;
         }

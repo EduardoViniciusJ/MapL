@@ -29,7 +29,7 @@ namespace MapL.Controllers
             var estrategias = await _uof.Estrategias.ObterTodasAsync();
             if (estrategias is null)
             {
-                return NotFound();
+                return NotFound("Nenhuma estratégia encontrada.");
             }
 
             var estrategiasDTO = _mapper.Map<IEnumerable<EstrategiaDTO>>(estrategias);
@@ -43,7 +43,7 @@ namespace MapL.Controllers
             var estrategia = await _uof.Estrategias.ObterPorIdAsync(id);
             if (estrategia is null)
             {
-                return BadRequest("Não encontrado");
+                return NotFound("Nenhuma estratégia encontrada.");
             }
             var estrategiaDTO = _mapper.Map<EstrategiaDTO>(estrategia);
 
@@ -58,7 +58,7 @@ namespace MapL.Controllers
 
             if (estrategia is null)
             {
-                return BadRequest("Projeto não encontrado");
+                return NotFound("Projeto não encontrado.");
             }
             var estrategiaDTO = _mapper.Map<IEnumerable<EstrategiaDTO>>(estrategia);
 
@@ -133,7 +133,7 @@ namespace MapL.Controllers
 
             if (estrategia == null)
             {
-                return NotFound("Item não encontrado");
+                return NotFound("Estratégia não encontrada.");
             }
 
             return Ok(estrategia);

@@ -41,7 +41,7 @@ namespace MapL.Controllers
             var projeto = await _uof.Projetos.ObterPorIdAsync(id);
             if (projeto is null)
             {
-                return NotFound("Projeto não encontrado.");
+                return NotFound("Nenhum projeto encontrado.");
             }
             return Ok(projeto);
         }
@@ -107,8 +107,8 @@ namespace MapL.Controllers
             return Ok(projetoCriadoDTO);
         }
 
+        // Atualizar um projeto
         [HttpPut("{id}")]
-        // Atualizar um projeto 
         public async Task<ActionResult<ProjetoDTO>> Put(int id, ProjetoDTO projetoDTO)
         {
             if (id != projetoDTO.Id)
@@ -117,10 +117,10 @@ namespace MapL.Controllers
             }
 
             var projeto = _mapper.Map<Projeto>(projetoDTO);
-
             var projetoAtualizado = _uof.Projetos.Atualizar(projeto);
 
             _uof.Commit();
+
             var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoAtualizado);
 
             return Ok(projetoCriadoDTO);
