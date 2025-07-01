@@ -10,7 +10,7 @@ namespace MapL.Models
         [Key]
         public int Id { get; set; }
         [Required (ErrorMessage = "O campo Texto é obrigatório.")]
-        [StringLength(100, MinimumLength = 1, ErrorMessage = "O campo Texto deve ter entre 1 e 100 caracteres.")]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "O campo Texto deve ter entre 1 e 100 caracteres.")]
         public string? Descricao { get; set; }
         public int ProjetoId { get; set; }
         public Projeto Projeto { get; set; }

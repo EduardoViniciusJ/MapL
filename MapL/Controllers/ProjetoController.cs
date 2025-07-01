@@ -82,7 +82,7 @@ namespace MapL.Controllers
 
             var projetoCriado = _uof.Projetos.Criar(projeto);
 
-            _uof.CommitAsync();
+            await _uof.CommitAsync();
 
             var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoCriado);
 
@@ -102,7 +102,7 @@ namespace MapL.Controllers
 
             var projetoCriado = _uof.Projetos.CriarProjetoCompleto(projeto);
 
-            _uof.CommitAsync();
+            await _uof.CommitAsync();
 
             var projetoCriadoDTO = _mapper.Map<ProjetoCompletoDTO>(projetoCriado);
 
@@ -122,7 +122,7 @@ namespace MapL.Controllers
 
             var projetoAtualizado = _uof.Projetos.Atualizar(projeto);
 
-            _uof.CommitAsync();
+            await _uof.CommitAsync();
 
             var projetoCriadoDTO = _mapper.Map<ProjetoDTO>(projetoAtualizado);
 
@@ -135,7 +135,7 @@ namespace MapL.Controllers
         {
             var projeto = _uof.Projetos.Remover(id);
 
-            _uof.CommitAsync();
+            await _uof.CommitAsync();
 
             if (projeto is null)
             {

@@ -1359,17 +1359,17 @@
             "format": "int32"
           },
           "conceito": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string"
           },
           "fato": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string"
           },
           "procedimento": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string"
           },
@@ -1387,19 +1387,19 @@
         "type": "object",
         "properties": {
           "conceito": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string",
             "nullable": true
           },
           "fato": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string",
             "nullable": true
           },
           "procedimento": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string",
             "nullable": true
@@ -1450,7 +1450,7 @@
             "format": "int32"
           },
           "descricao": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string"
           },
@@ -1468,7 +1468,7 @@
         "type": "object",
         "properties": {
           "descricao": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string",
             "nullable": true
@@ -1525,7 +1525,7 @@
             "format": "int32"
           },
           "descricao": {
-            "maxLength": 100,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string"
           },
@@ -1582,7 +1582,7 @@
             "format": "int32"
           },
           "titulo": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 5,
             "type": "string"
           },
