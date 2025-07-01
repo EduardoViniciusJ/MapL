@@ -22,9 +22,9 @@ namespace MapL.Repositories
             Projetos = projetoRepo;
         }
         
-        public async Task<int> CommitAsync()
+        public int Commit()
         {
-            return await _context.SaveChangesAsync();
+            return _context.SaveChanges();
         }
         public void Dispose()
         {

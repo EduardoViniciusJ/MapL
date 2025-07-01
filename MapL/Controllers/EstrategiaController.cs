@@ -52,14 +52,15 @@ namespace MapL.Controllers
 
         // Obter estratégia por projetoId
         [HttpGet("{id}/projeto")]
-        public async Task<ActionResult<EstrategiaDTO>> GetProjetoId(int projetoId)
+        public async Task<ActionResult<EstrategiaDTO>> GetProjetoId(int id)
         {
-            var estrategia = await _uof.Estrategias.ObterPorProjetoIdAsync(projetoId);
+            var estrategia = await _uof.Estrategias.ObterPorProjetoIdAsync(id);
+
             if (estrategia is null)
             {
                 return BadRequest("Projeto não encontrado");
             }
-            var estrategiaDTO = _mapper.Map<EstrategiaDTO>(estrategia);
+            var estrategiaDTO = _mapper.Map<IEnumerable<EstrategiaDTO>>(estrategia);
 
             return Ok(estrategiaDTO);
         }
@@ -98,7 +99,7 @@ namespace MapL.Controllers
             var estrategia = _mapper.Map<Estrategia>(estrategiaDTO);
             var estrategiaNovo = _uof.Estrategias.Criar(estrategia);
 
-            _uof.CommitAsync();
+            _uof.Commit();
 
             var estrategiaNovoDTO = _mapper.Map<EstrategiaDTO>(estrategiaNovo);
             return CreatedAtAction(nameof(Get), new { id = estrategiaNovoDTO.Id }, estrategiaNovoDTO);
@@ -116,7 +117,7 @@ namespace MapL.Controllers
             var estrategia = _mapper.Map<Estrategia>(estrategiaDTO);
             var estrategiaAtualizado = _uof.Estrategias.Atualizar(estrategia, id, projetoId);
 
-            _uof.CommitAsync();
+            _uof.Commit();
 
             var estrategiaAtualizadoDTO = _mapper.Map<EstrategiaDTO>(estrategiaAtualizado);
             return Ok(estrategiaAtualizadoDTO);
@@ -127,7 +128,8 @@ namespace MapL.Controllers
         public async Task<ActionResult> Delete(int projetoId, int id)
         {
             var estrategia = _uof.Estrategias.Remover(id, projetoId);
-            _uof.CommitAsync();
+
+            _uof.Commit();
 
             if (estrategia == null)
             {

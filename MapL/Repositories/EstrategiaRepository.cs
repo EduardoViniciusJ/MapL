@@ -54,11 +54,6 @@ namespace MapL.Repositories
         {
             var estrategiaExistente = _context.Estrategias.AsNoTracking().FirstOrDefault(x => x.Id == estrategiaId && x.ProjetoId == projetoId);
 
-            if (estrategiaExistente == null)
-            {
-                throw new Exception("Estratégia não encontrada");
-            }
-
             estrategia.Id = estrategiaId;
             estrategia.ProjetoId = projetoId;
 

@@ -47,7 +47,7 @@ namespace MapL.Controllers
                 return NotFound();
             }
 
-            var motivacaoDTO = _mapper.Map<MotivacaoDTO>(motivacao);
+            var motivacaoDTO = _mapper.Map<IEnumerable<MotivacaoDTO>>(motivacao);
             return Ok(motivacaoDTO);
         }
 
@@ -99,8 +99,7 @@ namespace MapL.Controllers
 
             var motivacao = _mapper.Map<Motivacao>(motivacaoDTO);
             var motivacaoNovo = _uof.Motivacoes.Criar(motivacao);
-            _uof.CommitAsync();
-
+            _uof.Commit();
             var motivacaoNovoDTO = _mapper.Map<MotivacaoDTO>(motivacaoNovo);
             return CreatedAtAction(nameof(Get), new { id = motivacaoNovoDTO.Id }, motivacaoNovoDTO);
         }
@@ -116,8 +115,7 @@ namespace MapL.Controllers
 
             var motivacao = _mapper.Map<Motivacao>(motivacaoDTO);
             var motivacaoAtualizado = _uof.Motivacoes.Atualizar(motivacao, projetoId, id);
-            _uof.CommitAsync();
-
+            _uof.Commit();
             var motivacaoAtualizadoDTO = _mapper.Map<MotivacaoDTO>(motivacaoAtualizado);
             return Ok(motivacaoAtualizadoDTO);
         }
@@ -127,8 +125,7 @@ namespace MapL.Controllers
         public async Task<ActionResult> Delete(int projetoId, int id)
         {
             var motivacao = _uof.Motivacoes.Remover(projetoId, id);
-            _uof.CommitAsync();
-
+            _uof.Commit();
             if (motivacao == null)
             {
                 return NotFound("Item não encontrado");

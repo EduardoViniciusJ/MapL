@@ -525,19 +525,12 @@
         ],
         "parameters": [
           {
-            "name": "projetoId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -1484,7 +1477,7 @@
             "format": "int32"
           },
           "descricao": {
-            "maxLength": 50,
+            "maxLength": 150,
             "minLength": 1,
             "type": "string",
             "nullable": true

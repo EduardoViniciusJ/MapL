@@ -324,13 +324,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "projetoId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
         "Name": "id",
-        "Type": "",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

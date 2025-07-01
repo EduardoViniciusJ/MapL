@@ -99,8 +99,7 @@ namespace MapL.Controllers
             var conhecimento = _mapper.Map<Conhecimento>(conhecimentoDTO);
             var conhecimentoCriado = _uof.Conhecimentos.Criar(conhecimento);
 
-            _uof.CommitAsync();
-
+            _uof.Commit();
             var conhecimentoCriadoDTO = _mapper.Map<ConhecimentoDTO>(conhecimentoCriado);
             return CreatedAtAction(nameof(Get), new { id = conhecimentoCriadoDTO.Id }, conhecimentoCriadoDTO);
         }
@@ -116,8 +115,7 @@ namespace MapL.Controllers
 
             var conhecimento = _mapper.Map<Conhecimento>(conhecimentoDTO);
             var conhecimentoAtualizado = _uof.Conhecimentos.Atualizar(conhecimento, id, projetoId);
-            _uof.CommitAsync();
-
+            _uof.Commit();
             var conhecimentoAtualizadoDTO = _mapper.Map<ConhecimentoDTO>(conhecimentoAtualizado);
             return Ok(conhecimentoAtualizadoDTO);
         }
@@ -127,8 +125,8 @@ namespace MapL.Controllers
         public async Task<ActionResult> DeleteOQueAprender(int projetoId, int id)
         {
             var conhecimento = _uof.Conhecimentos.Remover(id, projetoId);
-            _uof.CommitAsync();
 
+            _uof.Commit();
             if (conhecimento == null)
             {
                 return NotFound("Item não encontrado");
