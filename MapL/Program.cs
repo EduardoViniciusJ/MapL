@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -22,6 +23,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddIdentity<Users, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 // Add services to the container and Json serializer configuration
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -36,6 +39,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
 }).AddJwtBearer(options =>
 {
     options.SaveToken = true;
@@ -52,11 +56,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
     };
 });
-
-
-// Registrando os serviços do identity.
-builder.Services.AddIdentity<Users, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
 builder.Services.AddScoped<IConhecimentoRepository, ConhecimentoRepository>();
@@ -75,7 +74,7 @@ builder.Services.AddSwaggerGen();
 // Configurando o swagger para tokens JWT
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "MapL API", Version = "v1" });
+    c.SwaggerDoc("v1", new() { Title = "MapL", Version = "v1" });
 
     // Configuração de segurança JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -103,12 +102,6 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
-
-
-
-
-
 
 var app = builder.Build();
 

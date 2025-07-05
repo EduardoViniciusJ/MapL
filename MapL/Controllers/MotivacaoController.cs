@@ -3,11 +3,13 @@ using MapL.DTOs.PorDTO;
 using MapL.Models;
 using MapL.Pagination;
 using MapL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace MapL.Controllers
 {
+    [Authorize(Roles = "user")]
     [Route("api/[controller]")]
     [ApiController]
     public class MotivacaoController : Controller

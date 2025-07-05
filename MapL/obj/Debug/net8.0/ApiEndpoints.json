@@ -32,32 +32,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MapL.Controllers.ProjetoController",
-    "Method": "PostCompleto",
-    "RelativePath": "api/completo",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "projetoCompletoDTO",
-        "Type": "MapL.DTOs.ProjetoCompletoDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "MapL.DTOs.ProjetoCompletoDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
     "ContainingType": "MapL.Controllers.ConhecimentoController",
     "Method": "Get",
     "RelativePath": "api/Conhecimento",
@@ -725,6 +699,32 @@
     "ReturnTypes": [
       {
         "Type": "MapL.DTOs.ProjetoDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MapL.Controllers.ProjetoController",
+    "Method": "PostCompleto",
+    "RelativePath": "api/Projeto/completo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projetoCompletoDTO",
+        "Type": "MapL.DTOs.ProjetoCompletoDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MapL.DTOs.ProjetoCompletoDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

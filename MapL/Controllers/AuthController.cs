@@ -48,7 +48,7 @@ namespace MapL.Controllers
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, loginDTO.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),             // pq nao pode ser aqui nesse bloco de código ??? 
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),             
           
             };
 

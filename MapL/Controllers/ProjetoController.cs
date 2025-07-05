@@ -25,7 +25,6 @@ namespace MapL.Controllers
         }
 
         [HttpGet]
-        // Mostrar todos os projetos
         public async Task<ActionResult<IEnumerable<Projeto>>> Get()
         {
             var projetos = await _uof.Projetos.ObterTodasAsync();
@@ -90,7 +89,7 @@ namespace MapL.Controllers
             return CreatedAtAction(nameof(GetId), new { id = projetoCriadoDTO.Id }, projetoCriadoDTO);
         }
 
-        [HttpPost("/api/completo")]
+        [HttpPost("completo")]
         // Criar um projeto completo 
         public async Task<ActionResult<ProjetoCompletoDTO>> PostCompleto(ProjetoCompletoDTO projetoCompletoDTO)
         {

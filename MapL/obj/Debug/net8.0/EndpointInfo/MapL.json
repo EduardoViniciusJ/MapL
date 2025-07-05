@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "MapL API",
+    "title": "MapL",
     "version": "v1"
   },
   "paths": {
@@ -1288,7 +1288,7 @@
         }
       }
     },
-    "/api/completo": {
+    "/api/Projeto/completo": {
       "post": {
         "tags": [
           "Projeto"
