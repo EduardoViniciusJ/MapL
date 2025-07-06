@@ -11,17 +11,17 @@ namespace MapL.Repositories
         public IMotivacaoRepository Motivacoes { get; }
         public IEstrategiaRepository Estrategias { get; }
         public IConhecimentoRepository Conhecimentos { get; }
-        public IProjetoRepository Projetos { get; }
+        public IProjetoRepository Projetos { get; }   
 
-        public UnitOfWork(AppDbContext context, IMotivacaoRepository motivacaoRepo, IEstrategiaRepository estrategiaRepo, IConhecimentoRepository conhecimentoRepo, IProjetoRepository projetoRepo)
+        public UnitOfWork(AppDbContext context)
         {
             _context = context;
-            Motivacoes = motivacaoRepo;
-            Estrategias = estrategiaRepo;
-            Conhecimentos = conhecimentoRepo;
-            Projetos = projetoRepo;
+            Motivacoes = new MotivacaoRepository(_context);
+            Estrategias = new EstrategiaRepository(_context);
+            Conhecimentos = new ConhecimentoRepository(_context);
+            Projetos = new ProjetoRepository(_context);
         }
-        
+
         public int Commit()
         {
             return _context.SaveChanges();

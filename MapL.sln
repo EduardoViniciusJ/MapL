@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapL", "MapL\MapL.csproj", "{A30FCCC2-794F-4B55-9539-2708F9A7F0A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapLTeste", "MapLTeste\MapLTeste.csproj", "{68217A5C-8DB9-4566-A7F4-5B567F8705FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A30FCCC2-794F-4B55-9539-2708F9A7F0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A30FCCC2-794F-4B55-9539-2708F9A7F0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A30FCCC2-794F-4B55-9539-2708F9A7F0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68217A5C-8DB9-4566-A7F4-5B567F8705FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68217A5C-8DB9-4566-A7F4-5B567F8705FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68217A5C-8DB9-4566-A7F4-5B567F8705FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68217A5C-8DB9-4566-A7F4-5B567F8705FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
