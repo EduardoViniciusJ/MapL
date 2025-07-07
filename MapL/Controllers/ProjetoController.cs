@@ -15,8 +15,8 @@ namespace MapL.Controllers
     [ApiController]
     public class ProjetoController : Controller
     {
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _uof;
+        public readonly IMapper _mapper;
+        public readonly IUnitOfWork _uof;
 
         public ProjetoController(IUnitOfWork uof, IMapper mapper)
         {
@@ -32,7 +32,8 @@ namespace MapL.Controllers
             {
                 return NotFound("Nenhum projeto encontrado.");
             }
-            return Ok(projetos);
+            var projetosDTO = _mapper.Map<IEnumerable<ProjetoCompletoDTO>>(projetos);
+            return Ok(projetosDTO);
         }
 
         [HttpGet("{id:int}")]
@@ -40,6 +41,11 @@ namespace MapL.Controllers
         public async Task<ActionResult> GetId(int id)
         {
             var projeto = await _uof.Projetos.ObterPorIdAsync(id);
+            if (id == 0 ||id <= 0)
+            {
+                return BadRequest("ID de produto inválido");
+            }
+
             if (projeto is null)
             {
                 return NotFound("Nenhum projeto encontrado.");
