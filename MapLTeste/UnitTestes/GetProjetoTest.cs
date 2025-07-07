@@ -38,8 +38,8 @@ namespace MapLTeste.UnitTestes
             var data = await _controller.GetId(proId);
 
             data.Should().BeOfType<NotFoundObjectResult>().Which.StatusCode.Should().Be(404);
-
         }
+
         [Fact]
         public async Task GetProjetoByIdBadRequest()
         {
@@ -59,6 +59,5 @@ namespace MapLTeste.UnitTestes
 
             data.Result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeAssignableTo<IEnumerable<ProjetoCompletoDTO>>().And.NotBeNull();
         }
-   
     }
 }

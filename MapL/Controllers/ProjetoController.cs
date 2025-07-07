@@ -111,7 +111,7 @@ namespace MapL.Controllers
             _uof.Commit();
             var projetoCriadoDTO = _mapper.Map<ProjetoCompletoDTO>(projetoCriado);
 
-            return Ok(projetoCriadoDTO);
+            return CreatedAtAction(nameof(GetId), new { id = projetoCriado.Id }, projetoCriadoDTO); 
         }
 
         // Atualizar um projeto
