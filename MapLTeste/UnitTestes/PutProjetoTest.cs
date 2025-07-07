@@ -36,6 +36,21 @@ namespace MapLTeste.UnitTestes
             result.Result.Should().BeOfType<OkObjectResult>().Which.StatusCode.Should().Be(200); // Verifica se o resultado é um http 200
         }
 
+        [Fact]  
+        public async Task ProjetoPutBadRequest()
+        {
+            var prodId = 33;
+
+            var updateProjetoDTO = new ProjetoDTO
+            {
+                Id = 15,
+                Titulo = "Testes"
+            };
+
+            var result = await _controller.Put(prodId, updateProjetoDTO);
+            result.Result.Should().BeOfType<BadRequestObjectResult>().Which.StatusCode.Should().Be(400);
+        }
+
 
 
 
