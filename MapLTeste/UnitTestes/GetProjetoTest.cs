@@ -52,12 +52,14 @@ namespace MapLTeste.UnitTestes
         }
 
         [Fact]
-        public async Task GetProjeto()
+        public async Task GetProjetoOkResult()
         {
 
             var data = await _controller.Get();
 
             data.Result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeAssignableTo<IEnumerable<ProjetoCompletoDTO>>().And.NotBeNull();
         }
+
+    
     }
 }
