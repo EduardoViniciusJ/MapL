@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MapLTeste")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68843f3393d6bf6d8b989cc18df30602fbbaec28")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7834a5372f7f543d451540d3bc230e75e2e57f57")]
 [assembly: System.Reflection.AssemblyProductAttribute("MapLTeste")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MapLTeste")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -137,13 +137,15 @@ namespace MapL.Controllers
         // Deletar um projeto
         public async Task<ActionResult<ProjetoDTO>> Delete(int id)
         {
-            var projeto = _uof.Projetos.Remover(id);
+            var projeto = await _uof.Projetos.ObterPorIdAsync(id);  
 
-            _uof.Commit();
-            if (projeto is null)
+            if (projeto == null )
             {
                 return NotFound("Projeto não encontrado.");
             }
+            _uof.Projetos.Remover(id);
+
+            _uof.Commit();
 
             var projetoDeletadoDTO = _mapper.Map<ProjetoDTO>(projeto);
 

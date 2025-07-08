@@ -50,9 +50,5 @@ namespace MapLTeste.UnitTestes
             var result = await _controller.Put(prodId, updateProjetoDTO);
             result.Result.Should().BeOfType<BadRequestObjectResult>().Which.StatusCode.Should().Be(400);
         }
-
-
-
-
     }
 }
